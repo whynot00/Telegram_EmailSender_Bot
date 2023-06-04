@@ -1,0 +1,70 @@
+import mimetypes
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.application import MIMEApplication
+from email import encoders
+from pathlib import Path
+from datetime import datetime, date, time
+
+import os
+
+# 1. НАДО ДОРАБОТАТЬ HEIC формат 2. провести тесты на такую же несовместимость
+
+
+# sender_info_dict = {
+#         "user_id": "123123",
+#         "user_username": "123123",
+#     }
+
+
+def msg_attach(email_dict):
+    email_msg = MIMEMultipart()
+    email_msg["Subject"] = f"Сообщение от пользователя @{email_dict['user_username']}"
+
+    for file in os.listdir(f"user_files/{str(email_dict['user_id'])}"):
+        filename = os.path.basename(file)
+        ftype, encoding = mimetypes.guess_type(file)
+        file_type, subtype = ftype.split("/")
+
+        if file_type == "text":
+            with open(f"user_files/{str(email_dict['user_id']) + '/' + filename}") as file:
+                file = MIMEText(file.read())
+        elif file_type == "image":
+            with open(f"user_files/{str(email_dict['user_id']) + '/' + filename}", "rb") as file:
+                file = MIMEImage(file.read(), subtype)
+        elif file_type == "application":
+            with open(f"user_files/{str(email_dict['user_id']) + '/' + filename}", "rb") as file:
+                file = MIMEApplication(file.read(), subtype)
+        else:
+            continue
+        file.add_header('content-disposition', 'attachment', filename=f'{filename}')
+        email_msg.attach(file)
+
+    date_send = datetime.today().strftime("%d.%m.%Y %H:%M")
+    email_msg.attach(MIMEText(f"Сообщение отправлено: {str(date_send)}", "plain"))
+
+    return email_msg.as_string()
+
+
+def send_email(email_dict):
+    EMAIL_INFO = ["bot-help440@mail.ru", "07bqWCfwZsVKtpWWK5mN"]
+
+    server = smtplib.SMTP("smtp.mail.ru", 587)
+    server.starttls()
+
+    email_msg = msg_attach(email_dict)
+
+    try:
+        server.login(EMAIL_INFO[0], EMAIL_INFO[1])
+        server.sendmail(EMAIL_INFO[0], email_dict["recipient"], email_msg)
+
+    except Exception as _ex:
+        return f"{_ex}\n Проверяй сука свои цифрые ебаные"
+
+
+def main(sender_info_dict):
+    send_email(sender_info_dict)
+
