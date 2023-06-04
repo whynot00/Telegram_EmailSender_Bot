@@ -27,8 +27,8 @@ async def main(client):
     for item_group in group_href:
         namegroup = item_group.replace('https://t.me/', '')
         cur.execute(f"CREATE TABLE IF NOT EXISTS {namegroup}(username TEXT,userid TEXT);")
-
-        chat_entity = await client.get_entity(item_group)   #Передавай сюда строку
+        
+        chat_entity = await client.get_entity(item_group)
         offset = 0
 
         print(f"Сейчас: {namegroup}")
