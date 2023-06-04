@@ -1,7 +1,6 @@
 {
-  "ширмаев": "kshirmaev@mvd.ru",
-  "бандурин": "dbandurin@mvd.ru",
-  "грачев": "rgrachev15@mvd.ru",
-  "жагарин": "ezhagarin@mvd.ru",
-  "тест": "bot-help440@mail.ru"
+  "recipient": "email_recipient",
+  "recipient1": "email_recipient",
+  "recipient2": "email_recipient",
+  "recipient3": "email_recipient"
 }

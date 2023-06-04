@@ -7,7 +7,7 @@ from support_files import buttons as nav
 from support_files import whitelist_checker as wl_check
 
 
-    # Команда старт, которая обращается к навигационному меню
+    # The start command that accesses the navigation menu
 @dp.message_handler(commands="start")
 async def start(message: types.Message):
     check = wl_check.whitelist_checker(message.from_user.id)

@@ -9,20 +9,13 @@ from email import encoders
 from pathlib import Path
 from datetime import datetime, date, time
 
+from configurations import configuration_file as config
 import os
-
-# 1. НАДО ДОРАБОТАТЬ HEIC формат 2. провести тесты на такую же несовместимость
-
-
-# sender_info_dict = {
-#         "user_id": "123123",
-#         "user_username": "123123",
-#     }
 
 
 def msg_attach(email_dict):
     email_msg = MIMEMultipart()
-    email_msg["Subject"] = f"Сообщение от пользователя @{email_dict['user_username']}"
+    email_msg["Subject"] = f"Message from user @{email_dict['user_username']}"
 
     for file in os.listdir(f"user_files/{str(email_dict['user_id'])}"):
         filename = os.path.basename(file)
@@ -44,13 +37,13 @@ def msg_attach(email_dict):
         email_msg.attach(file)
 
     date_send = datetime.today().strftime("%d.%m.%Y %H:%M")
-    email_msg.attach(MIMEText(f"Сообщение отправлено: {str(date_send)}", "plain"))
+    email_msg.attach(MIMEText(f"Message sent: {str(date_send)}", "plain"))
 
     return email_msg.as_string()
 
 
 def send_email(email_dict):
-    EMAIL_INFO = ["bot-help440@mail.ru", "07bqWCfwZsVKtpWWK5mN"]
+    EMAIL_INFO = [config.configuration_data["EMAIL_INFO"][0], config.configuration_data["EMAIL_INFO"][1]]
 
     server = smtplib.SMTP("smtp.mail.ru", 587)
     server.starttls()

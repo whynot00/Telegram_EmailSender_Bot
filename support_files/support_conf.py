@@ -4,7 +4,7 @@ from support_files import buttons as nav
 
 user_id_for_send: set[int] = set()
 
-    # Костыль для ответа группе файлов
+    # A crutch for answering a group of files
 async def user_send_conf(user: types.User):
     if user.id in user_id_for_send:
         return

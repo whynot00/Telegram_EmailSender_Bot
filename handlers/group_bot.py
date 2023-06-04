@@ -12,7 +12,7 @@ class Form_group(StatesGroup):
     chek_user = State()
 
 
-    # Реакция на выход с отправки /// хз как работает на нескольких этапах????
+    # Reaction to exit from sending
 @dp.message_handler(text=nav.main_button_2.text, state="*")
 async def poyti_nahooi(message: types.Message, state="*"):
     await state.finish()
