@@ -37,7 +37,7 @@ async def poyti_nahooi(message: types.Message, state=Form.button_send):
     # Ответ на inline-кнопку
 @dp.callback_query_handler(text="send_files")
 async def send_files_button(message: types.Message, state=FSMContext):
-    if wl_check.whitelist_checker(message.from_user.id) != True:
+    if wl_check.whitelist_checker(message.from_user.id) == True:
         await state.set_state(Form.recipients)
         await bot.send_message(message.from_user.id,"Напишите фамилию получателя:", reply_markup=nav.main_button)
 

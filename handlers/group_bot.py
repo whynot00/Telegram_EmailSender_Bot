@@ -5,11 +5,29 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from misc import dispatcher as dp
 from misc import bot
 
+import os
+import shutil
+
+from support_files import parce_update_members_groups as update_members
+from support_files import whitelist_checker as wl_check
 from support_files import send_email
 from support_files import buttons as nav
 
 class Form_group(StatesGroup):
     chek_user = State()
+
+# Доделать надо
+
+
+# @dp.message_handler(commands="update")
+# async def update_members_group(message: types.Message):
+#     if wl_check.whitelist_checker(message.from_user.id) != True:
+#         if os.path.exists("logs/member_list.db") == True:
+#             shutil.rmtree("logs/member_list.db")
+#             update_members.
+
+
+
 
 
     # Реакция на выход с отправки /// хз как работает на нескольких этапах????
