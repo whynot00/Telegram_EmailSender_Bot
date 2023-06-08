@@ -2,11 +2,12 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
+from telethon.sync import TelegramClient
+
 from misc import dispatcher as dp
 from misc import bot
 
 import os
-import shutil
 
 from support_files import parce_update_members_groups as update_members
 from support_files import whitelist_checker as wl_check
@@ -19,13 +20,19 @@ class Form_group(StatesGroup):
 # Доделать надо
 
 
-# @dp.message_handler(commands="update")
-# async def update_members_group(message: types.Message):
-#     if wl_check.whitelist_checker(message.from_user.id) != True:
-#         if os.path.exists("logs/member_list.db") == True:
-#             shutil.rmtree("logs/member_list.db")
-#             update_members.
 
+
+@dp.message_handler(commands="update")
+async def update_members_group(message: types.Message):
+    print("ss")
+    # async with client:
+    #     client.loop.run_until_complete(update_members.main())
+
+
+    # if wl_check.whitelist_checker(user_id=message.from_user.id, powers="admin") == True:
+    #     if os.path.exists("logs/member_list.db") == True:
+    #         os.remove("logs/member_list.db")
+            
 
 
 
@@ -41,9 +48,8 @@ async def poyti_nahooi(message: types.Message, state="*"):
 @dp.callback_query_handler(text="find_group")
 async def start_find(message: types.Message, state=FSMContext):
     await state.set_state(Form_group.chek_user)
-    await bot.send_message(message.from_user.id, "Отправьте никнейм пользователя:", reply_markup=nav.main_button)
+    await bot.send_message(message.from_user.id, "Отправьте никнейм ID пользователя:", reply_markup=nav.main_button)
 
-@dp.message_handler(state=Form_group)
-async def find_group(message: types.Message, state=FSMContext):
-    ff = await bot.get_chat_member(user_id=981397216, chat_id=1938559321)
-    print(ff)
+
+# with client:
+#     client.loop.run_until_complete(update_members.main())

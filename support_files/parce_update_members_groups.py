@@ -51,9 +51,8 @@ async def main():
 
 
 
-if __name__ == "__main__":
-    with client:
-        client.loop.run_until_complete(main())
+# if __name__ == "__main__":
+#     client.loop.run_until_complete(main())
 
 
 
