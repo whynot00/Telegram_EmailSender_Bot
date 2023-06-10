@@ -28,3 +28,13 @@ async def poyti_nahooi(message: types.Message, state=Form.button_send):
     await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button) 
 
 
+# 1     Кнопка просмотра всех эпизодов    
+# 1.1   Сортировка по раскрытым
+# 1.2   Сортировка по не раскрытым
+# 1.3   Посик по дате
+#
+# 2     Кнопка добавления новых эпизодов
+# 2.1   "Введите кто выезжал"
+# 2.2   "Введите дату"
+# 2.3   "Ведите адрес"
+# 2.4   "Введите фабулу"

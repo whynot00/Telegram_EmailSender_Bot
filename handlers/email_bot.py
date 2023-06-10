@@ -11,7 +11,7 @@ from misc import dispatcher as dp
 from misc import bot
 
 from support_files import support_conf as support
-from support_files import logs_send_email as log_email
+from support_files import logs as lg
 from support_files import send_email
 from support_files import whitelist_checker as wl_check
 
@@ -86,8 +86,9 @@ async def send_button(message: types.Message, state=FSMContext):
     send_email.main(sender_info_dict)
     await bot.send_message(message.from_user.id, "Файлы успешно отправлены.", reply_markup=types.ReplyKeyboardRemove())
     shutil.rmtree(f"user_files/{str(sender_info_dict['user_id'])}")
-
-    log_email.logs_email_write(sender_info_dict)
+    
+    logs_infomation = [sender_info_dict["user_username"], sender_info_dict["user_id"], sender_info_dict["recipient"], sender_info_dict["type"]]
+    lg.logs(data_dict=logs_infomation, action="email_send")
 
     await state.finish()
     await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
