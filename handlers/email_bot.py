@@ -1,7 +1,6 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram import types
 
 import json
 import shutil
@@ -22,8 +21,8 @@ class Form(StatesGroup):
     button_send = State()
 
 
-    # Реакция на выход с отправки /// хз как работает на нескольких этапах????
-@dp.message_handler(text=nav.main_button_2.text, state="*")
+   # Реакция на выход с отправки /// хз как работает на нескольких этапах????
+@dp.message_handler(text=nav.main_button_1.text, state="*")
 async def poyti_nahooi(message: types.Message, state=Form.button_send):
     await state.finish()
     await bot.send_message(message.from_user.id, "Выход в галвное меню.", reply_markup=types.ReplyKeyboardRemove())
@@ -31,13 +30,13 @@ async def poyti_nahooi(message: types.Message, state=Form.button_send):
         shutil.rmtree(f"user_files/{str(message.from_user.id)}")
     if message.from_user.id in support.user_id_for_send:
         support.user_id_for_send.remove(message.from_user.id)
-    await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
+    await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button) 
 
 
     # Ответ на inline-кнопку
 @dp.callback_query_handler(text="send_files")
 async def send_files_button(message: types.Message, state=FSMContext):
-    if wl_check.whitelist_checker(message.from_user.id) == True:
+    if wl_check.whitelist_checker(message.from_user.id, powers="users") == True:
         await state.set_state(Form.recipients)
         await bot.send_message(message.from_user.id,"Напишите фамилию получателя:", reply_markup=nav.main_button)
 
@@ -75,7 +74,7 @@ async def documents(message: types.Message, state=FSMContext):
 
 
     # Реакция на нажатие кнопки отправки
-@dp.message_handler(text=nav.main_button_3.text, state=Form.button_send)
+@dp.message_handler(text=nav.main_button_2.text, state=Form.button_send)
 async def send_button(message: types.Message, state=FSMContext):
     sender_info_dict = {
         "user_id": message.from_user.id,
