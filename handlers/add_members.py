@@ -57,7 +57,7 @@ async def add_btn_users(callback: CallbackQuery, state=FSMContext):
         data["powers"] = "users"
 
 
-# 1.4 - Ожидание подтверждения
+# 1.4 - Реакция ввода и ожидание подтверждения
 @dp.message_handler(state=Members.add_btn_1)
 async def add_btn_confirm(message: types.Message, state=FSMContext):
     if message.text.isdigit() == True:
@@ -99,7 +99,7 @@ async def add_member_btn(message: types.Message, state=FSMContext):
 @dp.callback_query_handler(text="delete_member")
 async def delete_member(callback: CallbackQuery, state=FSMContext):
     await state.set_state(Members.delete_btn_1)
-    await bot.send_message(callback.from_user.id, "Введите ID пользователя, которого необходимо удалить.\nНевозможно удалить адмимистратора")
+    await bot.send_message(callback.from_user.id, "Введите ID пользователя, которого необходимо удалить.\nНевозможно удалить адмимистратора", reply_markup=nav.main_button)
 
 
 # 2.2 - Реакция на получение ID пользователя
@@ -111,14 +111,15 @@ async def delete_btn(message: types.Message, state=FSMContext):
     if message.text in member["users"]:
         await bot.send_message(message.from_user.id, f"Подтвердите удаление пользователя: {message.text}", reply_markup=nav.delete_button)
         member["users"].remove(message.text)
+        await state.set_state(Members.delete_btn_2)
     else:
-        await bot.send_message(message.from_user.id, "Такого пользователя нет.")
+        await bot.send_message(message.from_user.id, "Такого пользователя нет.", reply_markup=nav.main_button)
     
     async with state.proxy() as data:
         data["members_removed"] = member
         data["ID"] = message.text
 
-    await state.set_state(Members.delete_btn_2)
+    
 
 
 # 2.3 - Реакция на подтверждение удаления

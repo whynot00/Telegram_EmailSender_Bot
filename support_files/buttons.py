@@ -17,9 +17,9 @@ main_button.add(main_button_1)
 # Инлайн-кнопки 
 
 inline_reply_button = types.InlineKeyboardMarkup()
-inline_reply_button_1 = types.InlineKeyboardButton(text="Отправить файлы", callback_data="send_files")
-inline_reply_button_2 = types.InlineKeyboardButton(text="add_incident", callback_data="add_incident")
-inline_reply_button.add(inline_reply_button_1).add(inline_reply_button_2)
+inline_reply_button_1 = types.InlineKeyboardButton(text="Почта", callback_data="send_files")
+inline_reply_button_2 = types.InlineKeyboardButton(text="Преступления", callback_data="incidents")
+inline_reply_button.row(inline_reply_button_1, inline_reply_button_2)
 
 
 ##########################################################################
@@ -46,3 +46,20 @@ delete_button = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(delet
 
 add_btn = KeyboardButton("Добавить")
 add_button = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(add_btn).add(main_button_1)
+
+
+##########################################################################
+
+# Кнопки инцидентов
+
+# Инлайн-кнопки
+
+inline_reply_incident_btn1 = types.InlineKeyboardButton(text="Все эпизоды", callback_data="all_incidents")
+inline_reply_incident_btn2 = types.InlineKeyboardButton(text="Поиск по дате", callback_data="search_date")
+inline_reply_incident_btn3 = types.InlineKeyboardButton(text="Поиск по адресу", callback_data="search_address")
+inline_reply_incident_btn4 = types.InlineKeyboardButton(text="Раскрытые", callback_data="sort_rev_yes")
+inline_reply_incident_btn5 = types.InlineKeyboardButton(text="Не раскрытые", callback_data="sort_rev_none")
+inline_reply_incident_btn6 = types.InlineKeyboardButton(text="Внести эпизод", callback_data="add_new_incident")
+
+inline_reply_incident = types.InlineKeyboardMarkup().add(inline_reply_incident_btn1).row(inline_reply_incident_btn2, inline_reply_incident_btn3)
+inline_reply_incident.row(inline_reply_incident_btn4, inline_reply_incident_btn5).add(inline_reply_incident_btn6)
