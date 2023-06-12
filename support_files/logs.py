@@ -18,5 +18,9 @@ def logs(data_dict, action):
         cur.execute(f"CREATE TABLE IF NOT EXISTS {action}(user_name TEXT, user_id TEXT, change TEXT, chduser_id TEXT, datetime TEXT);")
         cur.execute(f"INSERT INTO {action} VALUES(?, ?, ?, ?, ?);", data_dict)
 
+    elif action == "incidents":
+        cur.execute(f"CREATE TABLE IF NOT EXISTS {action}(user_name TEXT, user_id TEXT, type_story TEXT, content TEXT, datetime TEXT);")
+        cur.execute(f"INSERT INTO {action} VALUES(?, ?, ?, ?, ?);", data_dict)
+
     con.commit()
 

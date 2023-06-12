@@ -18,9 +18,10 @@ def search_in_base(data, mode):
     elif mode == "address":
         cursor.execute(f"SELECT * FROM incidents WHERE address_incidient LIKE '%{data}%'")
         return cursor.fetchall()
-    
-    # for index, item in enumerate(records):
-    #     print(item)
+
+    elif mode == "id":
+        cursor.execute(f"SELECT * FROM incidents WHERE incident_id LIKE '{data}'")
+        return cursor.fetchall()
     
     cursor.close()
     connection.commit()
@@ -37,6 +38,10 @@ def search_in_base_revelation(mode):
 
     elif mode == "Нет":
         cursor.execute(f"SELECT * FROM incidents WHERE revelation LIKE 'Нет'")
+        return cursor.fetchall()
+
+    elif mode == "all":
+        cursor.execute(f"SELECT * FROM incidents")
         return cursor.fetchall()
 
     cursor.close()
