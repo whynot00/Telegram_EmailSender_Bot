@@ -1,6 +1,9 @@
 import sqlite3
 from support_files.incidents import normal_address as normalize
 
+from geopy.distance import geodesic as geo
+from geopy.geocoders import Nominatim
+
 date = "23.10.2022"
 address = "Нижний Новгород"
 
@@ -22,7 +25,25 @@ def search_in_base(data, mode):
     elif mode == "id":
         cursor.execute(f"SELECT * FROM incidents WHERE incident_id LIKE '{data}'")
         return cursor.fetchall()
-    
+
+    elif mode == "locate":
+        cursor.execute(f"SELECT * FROM coordinates")
+        result_parcing =  cursor.fetchall()
+
+        output_info = []
+        output = {}
+
+        for item in result_parcing:
+            location = item[1], item[2]
+            if round(geo(location, data).m, 0) < 5000:
+                cursor.execute(f"SELECT * FROM incidents WHERE incident_id = {item[0]}")
+                output_info.append(cursor.fetchone())
+                output_info.append(round(geo(location, data).m, 0))
+                output[f"id_{item[0]}"] = output_info
+
+        return output
+
+
     cursor.close()
     connection.commit()
 

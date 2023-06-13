@@ -37,6 +37,14 @@ async def incident_info(callback: CallbackQuery, state=FSMContext):
     await state.set_state(Incidents.incident)
     await callback.message.edit_text(text="Выбирете из предложенного:", reply_markup=nav.inline_reply_incident)
 
+@dp.message_handler(content_types=['location'], state=Incidents.incident)
+async def loc_handler(message):  
+    print(message.location.longitude)
+    print(message.location.latitude)
+    
+    await message.reply("Локация установлена")
+
+
 
 # 1.1 Поиск по дате
 @dp.callback_query_handler(text="search_date", state=Incidents.incident)
