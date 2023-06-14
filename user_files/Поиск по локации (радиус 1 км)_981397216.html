@@ -157,55 +157,106 @@
         <header class="header">
             <div>
                 <p>ЗАПРОС</p>
-                <h2>{{ search_name }}</h2>
+                <h2>Поиск по локации (радиус 1 км)</h2>
             </div>
             <div>
                 <p>РЕЗУЛЬТАТОВ</p>
-                <h2>{{ amount }}</h2>
+                <h2>3</h2>
             </div>
         </header>
         <section>
             <h3>Полный отчёт</h3>
-            {% for item in database -%}
             <div class="wrapper">
 
                 <div class="h-wrapper">
-                    <h4>ПРЕСТУПЛЕНИЕ ID {{ item[0]}}</h4>
+                    <h4>ПРЕСТУПЛЕНИЕ ID 3 - Расстояние до точки 52 метров</h4>
                 </div>
                 <div class="info">
                     <h5>ID по базе данных:</h5>
-                    <p>{{ item[0] }}</p>
+                    <p>3</p>
                 </div>
                 <div class="info">
                     <h5>Дата совершения:</h5>
-                    <p>{{ item[2] }}</p>
+                    <p>12.06.2023</p>
                 </div>
                 <div class="info">
                     <h5>Адрес совершения:</h5>
-                    <p>{{ item[3] }}</p>
+                    <p>Нижний Новгород Львовская 29 </p>
                 </div>
                 <div class="info">
                     <h5>Сотрудник выезжавший от УУР:</h5>
-                    <p>{{ item[4] }}</p>
+                    <p>грачев</p>
                 </div>
                 <div class="info">
                     <h5>Раскрытие:</h5>
-                    <p>{{ item[1] }}</p>
+                    <p>Нет</p>
                 </div>
-                <div class="info">
+                <div class="info info-finish">
                     <h5>Фабула:</h5>
-                    <p>{{ item[5] }}</p>
+                    <p>фывфы вфы афыапывпыв ыаавпварва вапвап ввар</p>
+                </div>
+            </div>
+            <div class="wrapper">
+
+                <div class="h-wrapper">
+                    <h4>ПРЕСТУПЛЕНИЕ ID 4 - Расстояние до точки 295 метров</h4>
                 </div>
                 <div class="info">
-                  <h5>Фабула:</h5>
-                  <p>{{ item[5] }}</p>
-              </div>
-              <div class="info info-finish">
-                <h5>Фабула:</h5>
-                <p>{{ item[5] }}</p>
+                    <h5>ID по базе данных:</h5>
+                    <p>4</p>
+                </div>
+                <div class="info">
+                    <h5>Дата совершения:</h5>
+                    <p>01.06.2023</p>
+                </div>
+                <div class="info">
+                    <h5>Адрес совершения:</h5>
+                    <p>Нижний Новгород Пермякова 36 </p>
+                </div>
+                <div class="info">
+                    <h5>Сотрудник выезжавший от УУР:</h5>
+                    <p>грачев</p>
+                </div>
+                <div class="info">
+                    <h5>Раскрытие:</h5>
+                    <p>Нет</p>
+                </div>
+                <div class="info info-finish">
+                    <h5>Фабула:</h5>
+                    <p>фыоатофато фыодатфдотаодыфвта фдыоатдофтафа</p>
+                </div>
             </div>
+            <div class="wrapper">
+
+                <div class="h-wrapper">
+                    <h4>ПРЕСТУПЛЕНИЕ ID 5 - Расстояние до точки 717 метров</h4>
+                </div>
+                <div class="info">
+                    <h5>ID по базе данных:</h5>
+                    <p>5</p>
+                </div>
+                <div class="info">
+                    <h5>Дата совершения:</h5>
+                    <p>20.04.2022</p>
+                </div>
+                <div class="info">
+                    <h5>Адрес совершения:</h5>
+                    <p>Нижний Новгород Львовская 45 </p>
+                </div>
+                <div class="info">
+                    <h5>Сотрудник выезжавший от УУР:</h5>
+                    <p>Грачев</p>
+                </div>
+                <div class="info">
+                    <h5>Раскрытие:</h5>
+                    <p>Нет</p>
+                </div>
+                <div class="info info-finish">
+                    <h5>Фабула:</h5>
+                    <p>Вшзыроы алщыщфтир повела по плащей. Лазфзатла</p>
+                </div>
             </div>
-            {% endfor %}
+            
 
         </section>
     </div>

@@ -1,6 +1,7 @@
 from geopy.distance import geodesic as geo
 from geopy.geocoders import Nominatim
 import sqlite3
+from jinja2 import Environment, FileSystemLoader
 
 
 # geolocator = Nominatim(user_agent="Tester")
@@ -66,26 +67,24 @@ def test(base):
 
 def search_in_location(data):
 
-    connection = sqlite3.connect("base_inc.db")
+    connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
     cursor = connection.cursor()
 
 
     cursor.execute(f"SELECT * FROM coordinates")
     result_parcing =  cursor.fetchall()
 
-
-    output_info = []
-    output = {}
+    output = []
 
 
-    for item in result_parcing:
+    for index, item in enumerate(result_parcing):
+        output_info = []
         location = item[1], item[2]
-        if round(geo(location, data).m, 0) < 5000:
+        if geo(location, data).m < 1000:
             cursor.execute(f"SELECT * FROM incidents WHERE incident_id = {item[0]}")
-            output_info.append(cursor.fetchone())
-            output_info.append(round(geo(location, data).m, 0))
-            output[f"id_{item[0]}"] = output_info
-
+            output_info.append(list(cursor.fetchone()))
+            output_info[0].append(int(geo(location, data).m))
+            output  += output_info
     return output
 
 
@@ -93,12 +92,26 @@ def search_in_location(data):
     cursor.close()
     connection.commit()
 
-# test(base)
-data = 56.268312, 43.881331
+
+data = 56.271245, 43.882033
 
 result = search_in_location(data)
 
-print(result)
+print(result[0][6])
 
-for key in result.keys():
-    print(result[key][1])
+# for key in result.keys():
+#     print(type(result[key][1]))
+#     print(type(result[key][0][0]))
+
+def test_request (db_list, search_title, userid):
+
+    environment = Environment(loader=FileSystemLoader("support_files/incidents/html_temp/"))
+    template = environment.get_template("form_request_template.html")
+
+    content = template.render(database=db_list, amount=len(db_list), search_name=search_title)
+
+    with open(f"user_files/{search_title}_{userid}.html", mode="w", encoding="utf-8") as message:
+        message.write(content)
+
+
+test_request(result, "asd", "11111")

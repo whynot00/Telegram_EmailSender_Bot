@@ -10,6 +10,10 @@ def insert_story(base):
     base.insert(2, normalize.normalize_address(base[2]))
     base.remove(base[3])
 
+    geolocator = Nominatim(user_agent="Tester")
+    location_adress = geolocator.geocode(base[2])
+    coordinates = location_adress.latitude, location_adress.longitude
+
     connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
     cursor = connection.cursor()
 
@@ -21,7 +25,8 @@ def insert_story(base):
         date_incidient TEXT, 
         address_incidient TEXT,
         fellow TEXT,
-        story TEXT);
+        story TEXT,
+        crime_type TEXT);
         """)
 
     cursor.execute("""
@@ -36,7 +41,7 @@ def insert_story(base):
         revelation, 
         date_incidient,
         address_incidient,
-        fellow, story) VALUES (?, ?, ?, ?, ?);""", base)
+        fellow, story, crime_type) VALUES (?, ?, ?, ?, ?, ?);""", base)
 
     cursor.execute(
         """INSERT INTO coordinates(

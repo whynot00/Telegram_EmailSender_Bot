@@ -57,6 +57,7 @@ add_button = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(add_btn)
 inline_reply_incident_btn1 = types.InlineKeyboardButton(text="Все эпизоды", callback_data="all_incidents")
 inline_reply_incident_btn2 = types.InlineKeyboardButton(text="Поиск по дате", callback_data="search_date")
 inline_reply_incident_btn3 = types.InlineKeyboardButton(text="Поиск по адресу", callback_data="search_address")
+inline_reply_incident_btn10 = types.InlineKeyboardMarkup(text="Поиск по геолокации", callback_data="search_geo")
 inline_reply_incident_btn4 = types.InlineKeyboardButton(text="Раскрытые", callback_data="sort_rev_yes")
 inline_reply_incident_btn5 = types.InlineKeyboardButton(text="Не раскрытые", callback_data="sort_rev_none")
 inline_reply_incident_btn6 = types.InlineKeyboardButton(text="Внести эпизод", callback_data="add_new_incident")
@@ -66,7 +67,7 @@ inline_reply_incident_btn7 = types.InlineKeyboardButton(text="Добавить �
 inline_reply_incident_btn8 = types.InlineKeyboardButton(text="Завершить", callback_data="confirm_add_incident")
 
 
-inline_reply_incident = types.InlineKeyboardMarkup().row(inline_reply_incident_btn1, inline_reply_incident_btn9).row(inline_reply_incident_btn2, inline_reply_incident_btn3)
+inline_reply_incident = types.InlineKeyboardMarkup().row(inline_reply_incident_btn1, inline_reply_incident_btn9).row(inline_reply_incident_btn2, inline_reply_incident_btn3).add(inline_reply_incident_btn10)
 inline_reply_incident.row(inline_reply_incident_btn4, inline_reply_incident_btn5).add(inline_reply_incident_btn6)
 
 inline_reply_incident_confirm_story = types.InlineKeyboardMarkup().row(inline_reply_incident_btn7, inline_reply_incident_btn8)
