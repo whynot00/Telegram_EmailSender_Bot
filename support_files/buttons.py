@@ -19,7 +19,8 @@ main_button.add(main_button_1)
 inline_reply_button = types.InlineKeyboardMarkup()
 inline_reply_button_1 = types.InlineKeyboardButton(text="Почта", callback_data="send_files")
 inline_reply_button_2 = types.InlineKeyboardButton(text="Преступления", callback_data="incidents")
-inline_reply_button.row(inline_reply_button_1, inline_reply_button_2)
+inline_reply_button_3 = types.InlineKeyboardButton(text="Справка", callback_data="reference")
+inline_reply_button.row(inline_reply_button_1, inline_reply_button_2).add(inline_reply_button_3)
 
 
 ##########################################################################
@@ -71,3 +72,13 @@ inline_reply_incident = types.InlineKeyboardMarkup().row(inline_reply_incident_b
 inline_reply_incident.row(inline_reply_incident_btn4, inline_reply_incident_btn5).add(inline_reply_incident_btn6)
 
 inline_reply_incident_confirm_story = types.InlineKeyboardMarkup().row(inline_reply_incident_btn7, inline_reply_incident_btn8)
+
+
+##########################################################################
+
+# Кнопки справки
+
+inline_reply_reference_btn1 = types.InlineKeyboardButton(text="Организации", callback_data="organization")
+inline_reply_reference_btn2 = types.InlineKeyboardButton(text="inline", callback_data="inline")
+
+inline_reply_reference = types.InlineKeyboardMarkup().row(inline_reply_reference_btn1, inline_reply_reference_btn2)

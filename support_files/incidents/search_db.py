@@ -43,6 +43,9 @@ def search_in_base(data, mode):
 
         return output
 
+    elif mode == "reference":
+        cursor.execute(f"SELECT * FROM reference WHERE name LIKE '%{data}%'")
+        return cursor.fetchall()
 
     cursor.close()
     connection.commit()
@@ -67,4 +70,5 @@ def search_in_base_revelation(mode):
 
     cursor.close()
     connection.commit()
+
 

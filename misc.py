@@ -7,7 +7,7 @@ import configurations as config
 
 
 token = config.configuration_file.configuration_data["TOKEN"]
-bot = Bot(token=token)
+bot = Bot(token=token, parse_mode="HTML")
 memorystorage = MemoryStorage()
 
 dispatcher = Dispatcher(bot, storage=memorystorage)

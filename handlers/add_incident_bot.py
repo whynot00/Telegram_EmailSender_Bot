@@ -49,16 +49,16 @@ async def loc_handler(message, state=FSMContext):
     result_search = search.search_in_base(data=coordinates, mode="locate")
 
     if result_search: 
-            if len(result_search) <= 2:
-                for item in result_search:
-                    await bot.send_message(message.from_user.id, f"Расстояние до выбранной точки: {item[6]} метров\n\nID: {item[0]}\nРаскрыто: {item[1]}\nДата совершения: {item[2]}\nАдрес: {item[3]}\nСотрудник: {item[4]}\nФабула: {item[5]}")
-                await state.finish()
-                await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
-            else:
-                from_req.form_story_in_html(db_list=result_search, search_title="Поиск по локации (радиус 1 км)", userid=message.from_user.id, mode="locate")
-                await bot.send_document(message.from_user.id, open(f"user_files/Поиск по локации (радиус 1 км)_{message.from_user.id}.html", "rb"), caption="В сводке более двух эпизодов, сформирован отчетный файл.")
-                await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.inline_reply_button)
-                await state.finish()
+        if len(result_search) <= 2:
+            for item in result_search:
+                await bot.send_message(message.from_user.id, f"Расстояние до выбранной точки: {item[6]} метров\n\nID: {item[0]}\nРаскрыто: {item[1]}\nДата совершения: {item[2]}\nАдрес: {item[3]}\nСотрудник: {item[4]}\nФабула: {item[5]}")
+            await state.finish()
+            await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
+        else:
+            from_req.form_story_in_html(db_list=result_search, search_title="Поиск по локации (радиус 1 км)", userid=message.from_user.id, mode="locate")
+            await bot.send_document(message.from_user.id, open(f"user_files/Поиск по локации (радиус 1 км)_{message.from_user.id}.html", "rb"), caption="В сводке более двух эпизодов, сформирован отчетный файл.")
+            await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.inline_reply_button)
+            await state.finish()
     else:
         await state.finish()
         await bot.send_message(message.from_user.id, "В радиусе 1 км по данным координатам преступлений не было.", reply_markup=nav.inline_reply_button)
