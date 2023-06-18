@@ -32,13 +32,19 @@ async def reference_organization(callback: CallbackQuery, state=FSMContext):
 
 @dp.message_handler(state=Reference.organization)
 async def insert_organization(message: types.Message, state=FSMContext):
-    print("ss")
-    result_search = search.search_in_base(data=message.text, mode="reference")
+    result_search = search.search_in_base(data=message.text.lower(), mode="reference")
     if result_search:
         for item in result_search:
-            await bot.send_message(message.from_user.id, text=f"<b>Бренд:</b> {item[1]}\n<b>Юр. лицо:</b> {item[2]}\n<b>ФИО:</b> {item[3]}\n<b>Должность:</b> {item[4]}\n<b>Телефон:</b> {item[5]}\n<b>E-mail:</b> {item[6]}\n<b>Коментарий:</b> {item[7]}\n")
+            await bot.send_message(message.from_user.id, text=f"<b>Бренд:</b> {item[2]}\n<b>Юр. лицо:</b> {item[3]}\n<b>ФИО:</b> {item[4]}\n<b>Должность:</b> {item[5]}\n<b>Телефон:</b> {item[6]}\n<b>E-mail:</b> {item[7]}\n<b>Коментарий:</b> {item[8]}\n")
         await bot.send_message(message.from_user.id, text="Главное меню:", reply_markup=nav.inline_reply_button)
     else:
         await bot.send_message(message.from_user.id, text="По данному запросу информации нет.\n\nГлавное меню:", reply_markup=nav.inline_reply_button)
 
     await state.finish()
+
+# @dp.callback_query_handler(text=["inline", "organization"])
+# async def inline(callback: CallbackQuery):
+#     if callback.data == "organization":
+#         print("organization")
+#     elif callback.data == "inline":
+#         print("inline")

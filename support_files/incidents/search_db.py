@@ -44,7 +44,7 @@ def search_in_base(data, mode):
         return output
 
     elif mode == "reference":
-        cursor.execute(f"SELECT * FROM reference WHERE name LIKE '%{data}%'")
+        cursor.execute(f"SELECT * FROM reference WHERE search_name LIKE '%{data}%'")
         return cursor.fetchall()
 
     cursor.close()

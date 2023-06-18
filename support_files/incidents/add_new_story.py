@@ -32,14 +32,13 @@ class Incidents(StatesGroup):
 @dp.message_handler(text=nav.main_button_1.text, state=[Incidents.incident, Incidents.incident_add_new_story_1, Incidents.incident_add_new_story_2, Incidents.incident_add_new_story_3, Incidents.incident_add_new_story_4, Incidents.incident_add_new_story_5])
 async def poyti_nahooi(message: types.Message, state=FSMContext):
     await state.finish()
-    await bot.send_message(message.from_user.id, "Выход в галвное меню.", reply_markup=types.ReplyKeyboardRemove())
     await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button) 
 
 
 # 1.1 Вход в добавление инцидента
 @dp.callback_query_handler(text="add_new_incident")
 async def add_new_story(callback: CallbackQuery, state=FSMContext):
-    if wl_check.whitelist_checker(user_id=callback.from_user.id, powers="admin") != True:
+    if wl_check.whitelist_checker(user_id=callback.from_user.id, powers="moderator") != True:
         await bot.send_message(callback.from_user.id, "У вас недостаточно прав.", reply_markup=nav.inline_reply_button)
         return
 

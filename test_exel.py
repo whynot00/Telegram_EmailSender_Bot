@@ -2,63 +2,65 @@ from openpyxl import load_workbook
 import json
 import sqlite3
 
+base = ["Нет", "14.12.2021", "Дзержинск Львоская 55 13", "Грачев Р.А.", "asdasdasdasdasd", "банк"]
+base_1 = ["Грачев Роман", "21.02.1999", "21.02.2022", "Подозреваемый"]
 
-dict_table = {}
+id_crime = 2
 
-# wb = load_workbook("table.xlsx")
-
-# ws = wb.active
-
-# for index, row in enumerate(ws.values):
-#     dict_table[f"id_{index}"] = {
-#         "name": str(row[0]).strip(),
-#         "uri_name": str(row[1]).strip(),
-#         "fio": str(row[2]).strip(),
-#         "powers": str(row[3]).strip(),
-#         "phone": str(row[4]).strip(),
-#         "email": str(row[5]).strip(),
-#         "cities": str(row[6]).strip()
-#     }
-
-# for key in dict_table.keys():
-#     item = dict_table[key]["phone"].replace(" ","").replace(")","").replace("(","").replace("+","").replace("-","")
-#     if item[0] == "8":
-#         dict_table[key]["phone"] = item.replace("8", "7", 1)
-#     else:
-#         dict_table[key]["phone"] = item
-#     print(dict_table[key]["phone"])
-
-
-# with open("text.json", "w+") as file:
-#     json.dump(dict_table, file, ensure_ascii=False)
-
-connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
+connection = sqlite3.connect("test_db.db")
 cursor = connection.cursor()
 
-with open("text.json", "r") as file:
-    jsonfile = json.load(file)
+# cursor.execute("""
+#     CREATE TABLE IF NOT EXISTS incidents(
+#     incident_id INTEGER PRIMARY KEY,
+#     revelation TEXT,
+#     date_incidient TEXT, 
+#     address_incidient TEXT,
+#     fellow TEXT,
+#     story TEXT,
+#     crime_type TEXT,
+#     id_crimes INTEGER, 
+#     FOREIGN KEY(id_crimes) REFERENCES criminals(id)
+#     );
+#     """)
 
-cursor.execute("""
-    CREATE TABLE IF NOT EXISTS reference(
-        id_ref INTEGER PRIMARY KEY,
-        name TEXT,
-        uri_name TEXT,
-        fio TEXT,
-        powers TEXT,
-        phone TEXT,
-        email TEXT,
-        cities TEXT);
+# cursor.execute("""
+#     CREATE TABLE IF NOT EXISTS criminals(
+#     id INTEGER PRIMARY KEY,
+#     name TEXT,
+#     birthday TEXT,
+#     date_catch TEXT,
+#     status_crime TEXT);
+#     """)
+
+# cursor.execute(
+#     """INSERT INTO incidents(
+#     revelation, 
+#     date_incidient,
+#     address_incidient,
+#     fellow, story, crime_type) VALUES (?, ?, ?, ?, ?, ?);""", base)
+
+# cursor.execute(
+#     """INSERT INTO criminals(
+#     name, 
+#     birthday,
+#     date_catch,
+#     status_crime) VALUES (?, ?, ?, ?);""", base_1)
+
+def update(id_crime, id_incident):
+    cursor.execute(f"""
+        UPDATE incidents SET id_crimes = {id_crime} WHERE incident_id = {id_incident}
     """)
 
-for key in jsonfile.keys():
-    array_keys = [jsonfile[key]["name"], jsonfile[key]["uri_name"],jsonfile[key]["fio"],jsonfile[key]["powers"],jsonfile[key]["phone"],jsonfile[key]["email"],jsonfile[key]["cities"]]
-    print(array_keys)
-    cursor.execute("""
-        INSERT INTO reference(
-            name, uri_name,
-            fio, powers,
-            phone, email,
-            cities) VALUES (?, ?, ?, ?, ?, ?, ?);""", array_keys)
+# update(2, 1)
+
+def select():
+    cursor.execute(f"""
+        SELECT incidents.*, criminals.name FROM incidents
+    """)
+    print(cursor.fetchall())
+
+select()
 
 cursor.close()
 connection.commit()
