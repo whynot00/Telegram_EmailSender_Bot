@@ -49,25 +49,24 @@ def insert_story(base):
 
     connection.commit()
 
-# def insert_face_crime(base):
-#     connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
-#     cursor = connection.cursor()
+def insert_face_crime(base):
+    connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
+    cursor = connection.cursor()
 
-#     # cursor.execute("""
-#     #     CREATE TABLE IF NOT EXISTS criminals(
-#     #         id INTEGER PRIMARY KEY,
-#     #         name TEXT,
-#     #         birthday TEXT,
-#     #         date_catch TEXT,
-#     #         status_crime TEXT,
-#     #         id_crimes INTEGER, FOREIGN KEY (id_crimes) REFERENCES incidents(incident_id));
-#     # """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS criminals(
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            birthday TEXT,
+            date_catch TEXT,
+            status_crime TEXT);
+    """)
 
-#     cursor.execute("""
-#         INSERT INTO criminals(name, birthday, date_catch, status_crime) VALUES (?, ?, ?, ?);""", base)
+    cursor.execute("""
+        INSERT INTO criminals(name, birthday, date_catch, status_crime) VALUES (?, ?, ?, ?);""", base)
 
-#     cursor.close()
-#     connection.commit()
+    cursor.close()
+    connection.commit()
 
 # list_data = ["Грачев Роман Алексеевич", "11.12.2022", "21.02.2023", "Подозреваемый"]
 

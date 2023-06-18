@@ -7,7 +7,7 @@ base_1 = ["Грачев Роман", "21.02.1999", "21.02.2022", "Подозре
 
 id_crime = 2
 
-connection = sqlite3.connect("test_db.db")
+connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
 cursor = connection.cursor()
 
 # cursor.execute("""
@@ -33,6 +33,13 @@ cursor = connection.cursor()
 #     status_crime TEXT);
 #     """)
 
+# cursor.execute("""
+#         CREATE TABLE IF NOT EXISTS coordinates(
+#         incident_id INTEGER PRIMARY KEY,
+#         latitude INTEGER,
+#         longitude INTEGER);
+#         """)
+
 # cursor.execute(
 #     """INSERT INTO incidents(
 #     revelation, 
@@ -47,20 +54,20 @@ cursor = connection.cursor()
 #     date_catch,
 #     status_crime) VALUES (?, ?, ?, ?);""", base_1)
 
-def update(id_crime, id_incident):
-    cursor.execute(f"""
-        UPDATE incidents SET id_crimes = {id_crime} WHERE incident_id = {id_incident}
-    """)
+# def update(id_crime, id_incident):
+#     cursor.execute(f"""
+#         UPDATE incidents SET id_crimes = {id_crime} WHERE incident_id = {id_incident}
+#     """)
 
-# update(2, 1)
+# # update(2, 1)
 
-def select():
-    cursor.execute(f"""
-        SELECT incidents.*, criminals.name FROM incidents
-    """)
-    print(cursor.fetchall())
+# def select():
+#     cursor.execute(f"""
+#         SELECT incidents.*, criminals.name FROM incidents INNER JOIN criminals ON criminals.id=incidents.id_crimes
+#     """)
+#     print(cursor.fetchall())
 
-select()
+# select()
 
 cursor.close()
 connection.commit()

@@ -18,7 +18,6 @@ from support_files import check_date
 from support_files import whitelist_checker as wl_check
 from support_files.incidents import insert_in_base as base
 from support_files.incidents import search_db as search
-from support_files.incidents import normal_address as normalize
 from support_files.incidents import form_request as from_req
 
 
@@ -49,7 +48,7 @@ async def search_add_crimes(callback: CallbackQuery, state=FSMContext):
     
     await callback.answer()
 
-@dp.message_handler(state=[Crimes.add_name_1, Crimes.add_name_2, Crimes.add_name_3])
+@dp.message_handler(state=[Crimes.add_name_1, Crimes.add_name_2, Crimes.add_name_3, Crimes.add_name_4])
 async def crimes_messages(message: types.Message, state=FSMContext):
     get_state = await state.get_state()
     
@@ -70,7 +69,7 @@ async def crimes_messages(message: types.Message, state=FSMContext):
         if get_state == "Crimes:add_name_3":
             if check_date.check_date(str(message.text)) == True:
                 data["date_crimes"] = message.text
-                await bot.send_message(message.from_user.id, "<b>Введите статус задержанного лица:</b>", reply_markup=nav.inline_reply_incident_confirm_story)
+                await bot.send_message(message.from_user.id, "<b>Введите статус задержанного лица:</b>")
                 await state.set_state(Crimes.add_name_4)
             else:
                 await bot.send_message(message.from_user.id, "<b>Дата введена не корректно.\nВведите снова:</b>")
@@ -82,12 +81,20 @@ async def crimes_messages(message: types.Message, state=FSMContext):
 
 @dp.callback_query_handler(text=["add_photo_incident", "confirm_add_incident"], state=Crimes.add_name_4)
 async def confirm_add(callback: CallbackQuery, state=FSMContext):
+    async with state.proxy() as data:
+        info_criminal = [data["name"], data["date"], data["date_crimes"], data["status_crime"],]
+
     if callback.data == "add_photo_incident":
         await bot.send_message(callback.from_user.id, "Данная функция пока не доступна.")
     
     if callback.data == "confirm_add_incident":
+        base.insert_face_crime(info_criminal)
         await bot.send_message(callback.from_user.id, '<b>Карточка успешно добавлена.</b>\n\nУказать эпизоды которые есть за данным лицом, можно во вкладке "Поиск по ID".', reply_markup=nav.inline_reply_button)
         await state.finish()
 
     await callback.answer()
 
+@dp.message_handler(state=Crimes.search_name)
+async def search_crimes_btn(message: types.Message, state=FSMContext):
+    result_search = search.search_in_base(data=message.text, mode="criminals")
+    print(result_search)

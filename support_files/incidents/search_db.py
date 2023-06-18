@@ -46,6 +46,11 @@ def search_in_base(data, mode):
     elif mode == "reference":
         cursor.execute(f"SELECT * FROM reference WHERE search_name LIKE '%{data}%'")
         return cursor.fetchall()
+    
+    elif mode == "criminals":
+        print(data, type(data))
+        cursor.execute(f"SELECT * FROM criminals WHERE LOWER(name) LIKE LOWER('%{data}%')")
+        return cursor.fetchall()
 
     cursor.close()
     connection.commit()
