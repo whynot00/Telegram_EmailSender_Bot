@@ -27,6 +27,8 @@ def form_story_in_html(db_list, search_title, userid, mode):
 
         with open(f"user_files/{search_title}_{userid}.html", mode="w", encoding="utf-8") as message:
             message.write(content)
+
+    
     
 def check_folder(id_incident):
     try:    

@@ -26,7 +26,7 @@ class Incidents(StatesGroup):
     incident_add_new_story_4 = State()
     incident_add_new_story_5 = State()
     incident_add_new_story_6 = State()
-
+    incident_add_new_story_7 = State()
 
 # Реакция на выход с отправки /// хз как работает на нескольких этапах????
 @dp.message_handler(text=nav.main_button_1.text, state=[Incidents.incident, Incidents.incident_add_new_story_1, Incidents.incident_add_new_story_2, Incidents.incident_add_new_story_3, Incidents.incident_add_new_story_4, Incidents.incident_add_new_story_5])
@@ -82,54 +82,63 @@ async def insert_fellow_story(message: types.Message, state=FSMContext):
 
     await bot.send_message(message.from_user.id, "Преступление раскрыто?\n\nДа\\Нет", reply_markup=nav.main_button)
 
-
-# 1.5 Ввод раскрытия
+# 1.5 Ввод КУСП
 @dp.message_handler(state=Incidents.incident_add_new_story_4)
-async def insert_revelation_story(message: types.Message, state=FSMContext):
+async def insert_fellow_story(message: types.Message, state=FSMContext):
     if ("да" in message.text.lower() or "нет" in message.text.lower()):
         async with state.proxy() as data:
             data["revelation_story"] = message.text.title()
         await state.set_state(Incidents.incident_add_new_story_5)
-        await bot.send_message(message.from_user.id, "Введите тип преступления:\n ДТП\\Банк", reply_markup=nav.main_button)
+        await bot.send_message(message.from_user.id, "Введите КУСП (только цифры)", reply_markup=nav.main_button)
     else:
         await bot.send_message(message.from_user.id, "Раскрытие введено не верно.\nВведите еща раз (Да\\Нет):", reply_markup=nav.main_button)
+    
 
-# 1.6 Ввод типа преступления
+# 1.6 Ввод раскрытия
 @dp.message_handler(state=Incidents.incident_add_new_story_5)
+async def insert_revelation_story(message: types.Message, state=FSMContext):
+    async with state.proxy() as data:
+        data["KUSP"] = message.text.title()
+    await state.set_state(Incidents.incident_add_new_story_6)
+
+    await bot.send_message(message.from_user.id, "Введите тип преступления:\n ДТП\\Банк", reply_markup=nav.main_button)
+
+# 1.7 Ввод типа преступления
+@dp.message_handler(state=Incidents.incident_add_new_story_6)
 async def insert_text_story(message: types.Message, state=FSMContext):
     
     async with state.proxy() as data:
         if (message.text.lower() == "дтп" or message.text.lower() == "банк"):
             data["crime_type"] = message.text
-            await state.set_state(Incidents.incident_add_new_story_6)
+            await state.set_state(Incidents.incident_add_new_story_7)
             await bot.send_message(message.from_user.id, "Введите фабулу преступления:")
         
         else:
             await bot.send_message(message.from_user.id, "Некоректный ввод.\n\nВведите снова:\nДТП\\Банк")
 
 
-# 1.7 Ввод фабулы
-@dp.message_handler(state=Incidents.incident_add_new_story_6)
+# 1.8 Ввод фабулы
+@dp.message_handler(state=Incidents.incident_add_new_story_7)
 async def insert_text_story(message: types.Message, state=FSMContext):
     
     async with state.proxy() as data:
         data["story"] = message.text
-    result_add = f'Раскрыто: {data["revelation_story"]}\nВид преступления: {data["crime_type"]}\nДата совершения: {data["date_story"]}\nАдрес: {data["address_story"]}\nСотрудник: {data["fellow_story"]}\nФабула: {data["story"]}'
+    result_add = f'Раскрыто: {data["revelation_story"]}\nВид преступления: {data["crime_type"]}\nКУСП: {data["KUSP"]}\nДата совершения: {data["date_story"]}\nАдрес: {data["address_story"]}\nСотрудник: {data["fellow_story"]}\nФабула: {data["story"]}'
 
     await bot.send_message(message.from_user.id, f"Подвтердите верность данных:\n\n{result_add}", reply_markup=nav.inline_reply_incident_confirm_story)
 
 
-# 1.8 Ввод фотографии
-@dp.callback_query_handler(text="add_photo_incident", state=Incidents.incident_add_new_story_6)
+# 1.9 Ввод фотографии
+@dp.callback_query_handler(text="add_photo_incident", state=Incidents.incident_add_new_story_7)
 async def add_photo_incident(callback: CallbackQuery, state=FSMContext):
     await callback.message.edit_text(text="Данная функиция пока не работает", reply_markup=nav.inline_reply_incident_confirm_story)
 
 
-# 1.9 Подтверждение
-@dp.callback_query_handler(text="confirm_add_incident", state=Incidents.incident_add_new_story_6)
+# 1.10 Подтверждение
+@dp.callback_query_handler(text="confirm_add_incident", state=Incidents.incident_add_new_story_7)
 async def confirm_add_incident(callback: CallbackQuery, state=FSMContext):
     async with state.proxy() as data:
-        result_add = [data["revelation_story"], data["date_story"], data["address_story"], data["fellow_story"], data["story"], data["crime_type"]]
+        result_add = [data["revelation_story"], data["date_story"], data["address_story"], data["fellow_story"], data["story"], data["crime_type"], data["KUSP"]]
 
     logs_infomation = [callback.from_user.username, callback.from_user.id, "story_add_story", "stories"]
     lg.logs(data_dict=logs_infomation, action="incidents")

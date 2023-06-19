@@ -1,5 +1,5 @@
 import sqlite3
-# from support_files.incidents import normal_address as normalize
+from support_files.incidents import normal_address as normalize
 
 from geopy.distance import geodesic as geo
 from geopy.geocoders import Nominatim
@@ -16,6 +16,7 @@ def insert_story(base):
 
     connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
     cursor = connection.cursor()
+
 
     cursor.execute("""
             
@@ -41,7 +42,7 @@ def insert_story(base):
         revelation, 
         date_incidient,
         address_incidient,
-        fellow, story, crime_type) VALUES (?, ?, ?, ?, ?, ?);""", base)
+        fellow, story, crime_type, kusp) VALUES (?, ?, ?, ?, ?, ?, ?);""", base)
 
     cursor.execute(
         """INSERT INTO coordinates(
@@ -68,6 +69,21 @@ def insert_face_crime(base):
     cursor.close()
     connection.commit()
 
-# list_data = ["Грачев Роман Алексеевич", "11.12.2022", "21.02.2023", "Подозреваемый"]
+def insert_case(base):
+    connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
+    cursor = connection.cursor()
 
-# insert_face_crime(list_data)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS criminal_case(
+        id INTEGER PRIMARY KEY,
+        kusp TEXT,
+        num_case TEXT,
+        date_case TEXT,
+        article TEXT);
+    """)
+
+    cursor.execute("""
+        INSERT INTO criminal_case(kusp, num_case, date_case, article) VALUES (?, ?, ?, ?);""", base)
+
+    cursor.close()
+    connection.commit()

@@ -21,7 +21,8 @@ inline_reply_button_1 = types.InlineKeyboardButton(text="Почта", callback_d
 inline_reply_button_2 = types.InlineKeyboardButton(text="Преступления", callback_data="incidents")
 inline_reply_button_3 = types.InlineKeyboardButton(text="Справка", callback_data="reference")
 inline_reply_button_4 = types.InlineKeyboardButton(text="Лица", callback_data="crimes")
-inline_reply_button.row(inline_reply_button_1, inline_reply_button_2).row(inline_reply_button_3, inline_reply_button_4)
+inline_reply_button_5 = types.InlineKeyboardButton(text="Уголовыне дела", callback_data="case_add")
+inline_reply_button.row(inline_reply_button_1, inline_reply_button_2).row(inline_reply_button_3, inline_reply_button_4).add(inline_reply_button_5)
 
 
 ##########################################################################
@@ -69,7 +70,7 @@ inline_reply_incident_btn7 = types.InlineKeyboardButton(text="Добавить �
 inline_reply_incident_btn8 = types.InlineKeyboardButton(text="Завершить", callback_data="confirm_add_incident")
 
 
-inline_reply_incident = types.InlineKeyboardMarkup().row(inline_reply_incident_btn1, inline_reply_incident_btn9).row(inline_reply_incident_btn2, inline_reply_incident_btn3).add(inline_reply_incident_btn10)
+inline_reply_incident = types.InlineKeyboardMarkup().row(inline_reply_incident_btn1, inline_reply_incident_btn9).row(inline_reply_incident_btn2, inline_reply_incident_btn3)
 inline_reply_incident.row(inline_reply_incident_btn4, inline_reply_incident_btn5).add(inline_reply_incident_btn6)
 
 inline_reply_incident_confirm_story = types.InlineKeyboardMarkup().row(inline_reply_incident_btn7, inline_reply_incident_btn8)
@@ -87,5 +88,15 @@ inline_reply_reference = types.InlineKeyboardMarkup().row(inline_reply_reference
 
 inline_reply_crimes_btn1 = types.InlineKeyboardButton(text="Поиск по ФИО", callback_data="search_crimes_name")
 inline_reply_crimes_btn2 = types.InlineKeyboardButton(text="Добавить лицо", callback_data="add_crimes_name")
+inline_reply_crimes_btn3 = types.InlineKeyboardButton(text="Все лица", callback_data="all_crimes")
 
-inline_reply_crimes_names = types.InlineKeyboardMarkup().row(inline_reply_crimes_btn1, inline_reply_crimes_btn2)
+inline_reply_crimes_names = types.InlineKeyboardMarkup().add(inline_reply_crimes_btn3).row(inline_reply_crimes_btn1, inline_reply_crimes_btn2)
+
+##########################################################################
+
+# Кнопки уголовных дел
+
+inline_reply_case_btn1 = types.InlineKeyboardButton(text="Добавить", callback_data="add_case")
+inline_reply_case_btn2 = types.InlineKeyboardButton(text="Поиск", callback_data="search_case")
+
+inline_reply_case = types.InlineKeyboardMarkup().row(inline_reply_case_btn1, inline_reply_case_btn2)

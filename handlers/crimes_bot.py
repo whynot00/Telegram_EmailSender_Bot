@@ -97,4 +97,14 @@ async def confirm_add(callback: CallbackQuery, state=FSMContext):
 @dp.message_handler(state=Crimes.search_name)
 async def search_crimes_btn(message: types.Message, state=FSMContext):
     result_search = search.search_in_base(data=message.text, mode="criminals")
+    if len(result_search) <= 2:
+        for item in result_search:
+            await bot.send_message(message.from_user.id, f"<b>ФИО:</b> {item[1]}\n<b>Год рождения:</b> {item[2]}\n<b>Дата задержания:</b> {item[3]}\n<b>Статус:</b> {item[4]}\n<b>Куратор:</b> {item[5]}\n")
+    else:
+        from_req.form_story_in_html(db_list=result_search, search_title="Поиск по ФИО", userid=message.from_user.id, mode="criminals")
+        await bot.send_document(message.from_user.id, open(f"user_files/Поиск по адресу_{message.from_user.id}.html", "rb"), caption="В сводке более двух эпизодов, сформирован отчетный файл.")
+        await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.inline_reply_button)
+        os.unlink(f"user_files/Поиск по адресу_{str(message.from_user.id)}.html")
+        await state.finish()
+    await state.finish()
     print(result_search)
