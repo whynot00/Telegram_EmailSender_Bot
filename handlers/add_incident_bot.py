@@ -79,7 +79,7 @@ async def search_date_insert(message: types.Message, state=FSMContext):
             if result_search: 
                 if len(result_search) <= 2:
                     for item in result_search:
-                        await bot.send_message(message.from_user.id, f"<b>ID:</b> {item[0]}\n<b>Раскрыто:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Фабула:</b> {item[5]}")
+                        await bot.send_message(message.from_user.id, f"<b>ID:</b> {item[0]}\n<b>КУСП:</b> {item[8]}\n<b>Вид преступления:</b> {item[6]}\n<b>Раскрытие:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Сотрудник:</b> {item[12]}\n<b>Дата задержания:</b> {item[13]}\n<b>Статус:</b> {item[14]}\n<b>ID телеграм-аккаунта:</b> {item[15]}\n<b>Номер уголовного дела:</b> {item[9]} от {item[10]}\n<b>Статья УК:</b> {item[11]}\n<b>Фабула:</b> {item[5]}")
                     await state.finish()
                     await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
                 else:
@@ -99,10 +99,11 @@ async def search_date_insert(message: types.Message, state=FSMContext):
     # 2.2 Ввод адреса
     elif get_state == "Incidents:incident_search_address":
         result_search = search.search_in_base(data=normalize.normalize_address(message.text), mode="address")
+        print(result_search)
         if result_search:
             if len(result_search) <= 2:
                 for item in result_search:
-                    await bot.send_message(message.from_user.id, f"<b>ID:</b> {item[0]}\n<b>Раскрыто:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Фабула:</b> {item[5]}")
+                    await bot.send_message(message.from_user.id, f"<b>ID:</b> {item[0]}\n<b>КУСП:</b> {item[8]}\n<b>Вид преступления:</b> {item[6]}\n<b>Раскрытие:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Сотрудник:</b> {item[12]}\n<b>Дата задержания:</b> {item[13]}\n<b>Статус:</b> {item[14]}\n<b>ID телеграм-аккаунта:</b> {item[15]}\n<b>Номер уголовного дела:</b> {item[9]} от {item[10]}\n<b>Статья УК:</b> {item[11]}\n<b>Фабула:</b> {item[5]}")
                 await state.finish()
                 await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
             else:
@@ -121,48 +122,44 @@ async def search_date_insert(message: types.Message, state=FSMContext):
     elif get_state == "Incidents:incident_search_id":
         if message.text.isdigit() == True:
             result_search = search.search_in_base(data=int(message.text), mode="id")
+            from_req.form_story_in_html(db_list=result_search, search_title="Поиск по ID", userid=message.from_user.id, mode="ID")
 
-            if result_search:
-                for item in result_search:
-                    await bot.send_message(message.from_user.id, f"<b>ID:</b> {item[0]}\n<b>Раскрыто:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Фабула:</b> {item[5]}")
-                await state.finish()
-                await bot.send_message(message.from_user.id, "Главное меню:", reply_markup=nav.inline_reply_button)
-            else:
-                await state.finish()
-                await bot.send_message(message.from_user.id, "По указанному ID информации не обнаружено.\n\nВыберите необходимую функцию:", reply_markup=nav.inline_reply_button)
-
+            await bot.send_document(message.from_user.id, open(f"user_files/Поиск по ID_{message.from_user.id}.html", "rb"), caption="Полный отчет о эпизоде.")
+            await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.inline_reply_button)
+            os.unlink(f"user_files/Поиск по ID_{str(message.from_user.id)}.html")
+            await state.finish()
         else:
             await bot.send_message(message.from_user.id, "ID введен не корректно.\n Введите еще раз:")
 
-        logs_infomation = [message.from_user.username, message.from_user.id, "story_search_id", message.text]
+        # logs_infomation = [message.from_user.username, message.from_user.id, "story_search_id", message.text]
     
     # 2.4 Ввод геолокации
-    elif get_state == "Incidents:incident_search_geo":
-        coordinates = message.location.latitude, message.location.longitude
-        result_search = search.search_in_base(data=coordinates, mode="locate")
+    # elif get_state == "Incidents:incident_search_geo":
+    #     coordinates = message.location.latitude, message.location.longitude
+    #     result_search = search.search_in_base(data=coordinates, mode="locate")
 
-        if result_search: 
-            if len(result_search) <= 2:
-                for item in result_search:
-                    await bot.send_message(message.from_user.id, f"Расстояние до выбранной точки: {item[6]} метров\n\nID: {item[0]}\nРаскрыто: {item[1]}\nДата совершения: {item[2]}\nАдрес: {item[3]}\nСотрудник: {item[4]}\nФабула: {item[5]}")
-                await state.finish()
-                await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
-            else:
-                from_req.form_story_in_html(db_list=result_search, search_title="Поиск по локации (радиус 1 км)", userid=message.from_user.id, mode="locate")
-                await bot.send_document(message.from_user.id, open(f"user_files/Поиск по локации (радиус 1 км)_{message.from_user.id}.html", "rb"), caption="В сводке более двух эпизодов, сформирован отчетный файл.")
-                await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.inline_reply_button)
-                os.unlink(f"user_files/Поиск по локации (радиус 1 км)_{str(callback.from_user.id)}.html")
-                await state.finish()
-        else:
-            await state.finish()
-            await bot.send_message(message.from_user.id, "В радиусе 1 км по данным координатам преступлений не было.", reply_markup=nav.inline_reply_button)
+    #     if result_search: 
+    #         if len(result_search) <= 2:
+    #             for item in result_search:
+    #                 await bot.send_message(message.from_user.id, f"Расстояние до выбранной точки: {item[6]} метров\n\nID: {item[0]}\nРаскрыто: {item[1]}\nДата совершения: {item[2]}\nАдрес: {item[3]}\nСотрудник: {item[4]}\nФабула: {item[5]}")
+    #             await state.finish()
+    #             await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
+    #         else:
+    #             from_req.form_story_in_html(db_list=result_search, search_title="Поиск по локации (радиус 1 км)", userid=message.from_user.id, mode="locate")
+    #             await bot.send_document(message.from_user.id, open(f"user_files/Поиск по локации (радиус 1 км)_{message.from_user.id}.html", "rb"), caption="В сводке более двух эпизодов, сформирован отчетный файл.")
+    #             await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.inline_reply_button)
+    #             os.unlink(f"user_files/Поиск по локации (радиус 1 км)_{str(callback.from_user.id)}.html")
+    #             await state.finish()
+    #     else:
+    #         await state.finish()
+    #         await bot.send_message(message.from_user.id, "В радиусе 1 км по данным координатам преступлений не было.", reply_markup=nav.inline_reply_button)
 
     
 
-        coordinates = f"{coordinates[0]}, {coordinates[1]}"
-        logs_infomation = [message.from_user.username, message.from_user.id, "story_search_coordinates", coordinates]
+        # coordinates = f"{coordinates[0]}, {coordinates[1]}"
+        # logs_infomation = [message.from_user.username, message.from_user.id, "story_search_coordinates", coordinates]
 
-    lg.logs(data_dict=logs_infomation, action="incidents")
+    # lg.logs(data_dict=logs_infomation, action="incidents")
  
 
     
@@ -185,7 +182,7 @@ async def sort_any(callback: CallbackQuery, state=FSMContext):
         result_search = search.search_in_base_revelation(mode="Да")
         if len(result_search) <= 2:
             for item in result_search:
-                await bot.send_message(message.from_user.id, f"<b>ID:</b> {item[0]}\n<b>Раскрыто:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Фабула:</b> {item[5]}")
+                await bot.send_message(callback.from_user.id, f"<b>ID:</b> {item[0]}\n<b>Раскрыто:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Фабула:</b> {item[5]}")
             await bot.send_message(callback.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
         else:
             from_req.form_story_in_html(db_list=result_search, search_title="Раскрытые преступления", userid=callback.from_user.id, mode="default")
@@ -201,7 +198,7 @@ async def sort_any(callback: CallbackQuery, state=FSMContext):
         result_search = search.search_in_base_revelation(mode="Нет")
         if len(result_search) <= 2:
             for item in result_search:
-                await bot.send_message(message.from_user.id, f"<b>ID:</b> {item[0]}\n<b>Раскрыто:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Фабула:</b> {item[5]}")
+                await bot.send_message(callback.from_user.id, f"<b>ID:</b> {item[0]}\n<b>Раскрыто:</b> {item[1]}\n<b>Дата совершения:</b> {item[2]}\n<b>Адрес:</b> {item[3]}\n<b>Сотрудник:</b> {item[4]}\n<b>Фабула:</b> {item[5]}")
             await bot.send_message(callback.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button)
         else:
             from_req.form_story_in_html(db_list=result_search, search_title="Нераскрытые преступления", userid=callback.from_user.id, mode="default")

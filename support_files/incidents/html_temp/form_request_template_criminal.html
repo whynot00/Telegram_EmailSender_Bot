@@ -159,41 +159,11 @@
                 <p>ЗАПРОС</p>
                 <h2>{{ search_name }}</h2>
             </div>
-        </header>
-        <section>
-            <h3>Информация по лицу</h3>
-            <div class="wrapper">
-
-                <div class="h-wrapper">
-                    <h4>{{ database[0][15] }}</h4>
-                </div>
-                <div class="info">
-                    <h5>ID по базе данных:</h5>
-                    <p>{{ database[0][14] }}</p>
-                </div>
-                <div class="info">
-                    <h5>Дата рождения:</h5>
-                    <p>{{ database[0][16] }}</p>
-                </div>
-                <div class="info">
-                    <h5>Дата задержания:</h5>
-                    <p>{{ database[0][17] }}</p>
-                </div>
-                <div class="info">
-                    <h5>Статус:</h5>
-                    <p>{{ database[0][18] }}</p>
-                </div>
-                <div class="info">
-                    <h5>ID телеграм-аккаунта:</h5>
-                    <p>{{ database[0][19] }}</p>
-                </div>
-                <div class="info info-finish">
-                    <h5>ID телеграм-аккаунта (куратор):</h5>
-                    <p>{{ database[0][20] }}</p>
-                </div>
+            <div>
+                <p>РЕЗУЛЬТАТОВ</p>
+                <h2>{{ amount }}</h2>
             </div>
-        </section>
-
+        </header>
         <section>
             <h3>Полный отчёт</h3>
             {% for item in database -%}
@@ -229,6 +199,22 @@
                 <div class="info">
                     <h5>Сотрудник выезжавший от УУР:</h5>
                     <p>{{ item[4] }}</p>
+                </div>
+                <div class="info">
+                    <h5>ФИО преступника:</h5>
+                    <p>{{ item[12] }}</p>
+                </div>
+                <div class="info">
+                    <h5>Дата задержания:</h5>
+                    <p>{{ item[13] }}</p>
+                </div>
+                <div class="info">
+                    <h5>Статус:</h5>
+                    <p>{{ item[14] }}</p>
+                </div>
+                <div class="info">
+                    <h5>ID телеграм-аккаунта:</h5>
+                    <p>{{ item[15] }}</p>
                 </div>
                 <div class="info">
                     <h5>Номер уголовного дела:</h5>

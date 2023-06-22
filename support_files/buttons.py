@@ -21,7 +21,7 @@ inline_reply_button_1 = types.InlineKeyboardButton(text="Почта", callback_d
 inline_reply_button_2 = types.InlineKeyboardButton(text="Преступления", callback_data="incidents")
 inline_reply_button_3 = types.InlineKeyboardButton(text="Справка", callback_data="reference")
 inline_reply_button_4 = types.InlineKeyboardButton(text="Лица", callback_data="crimes")
-inline_reply_button_5 = types.InlineKeyboardButton(text="Уголовыне дела", callback_data="case_add")
+inline_reply_button_5 = types.InlineKeyboardButton(text="Уголовыне дела", callback_data="case")
 inline_reply_button.row(inline_reply_button_1, inline_reply_button_2).row(inline_reply_button_3, inline_reply_button_4).add(inline_reply_button_5)
 
 

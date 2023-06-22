@@ -29,9 +29,9 @@ class Cases(StatesGroup):
     search_case_1 = State()
 
 
-@dp.callback_query_handler(text=["case_add", "add_case", "search_case"])
+@dp.callback_query_handler(text=["case", "add_case", "search_case"])
 async def case_num(callback: CallbackQuery, state=FSMContext):
-    if callback.data == "case_add":
+    if callback.data == "case":
         await callback.message.edit_text("Выберите:", reply_markup=nav.inline_reply_case)
 
     if callback.data == "add_case":
@@ -39,7 +39,7 @@ async def case_num(callback: CallbackQuery, state=FSMContext):
         await state.set_state(Cases.add_case_1)
 
     if callback.data == "search_case":
-        await callback.message.edit_text("Введите номер дела:", reply_markup=nav.inline_reply_case)
+        await callback.message.edit_text("<b>Введите номер дела:</b>")
         await state.set_state(Cases.search_case_1)
 
 @dp.message_handler(state=[Cases.add_case_1, Cases.add_case_2, Cases.add_case_3, Cases.add_case_4, Cases.search_case_1])

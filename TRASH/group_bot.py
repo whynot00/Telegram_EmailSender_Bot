@@ -48,3 +48,21 @@
 #     await state.set_state(Form_group.chek_user)
 #     await bot.send_message(message.from_user.id, "Отправьте никнейм ID пользователя:", reply_markup=nav.main_button)
 
+
+
+    # elif mode == "locate":
+    #     cursor.execute(f"SELECT * FROM coordinates")
+    #     result_parcing =  cursor.fetchall()
+
+    #     output = []
+
+    #     for index, item in enumerate(result_parcing):
+    #         output_info = []
+    #         location = item[1], item[2]
+    #         if geo(location, data).m < 1000:
+    #             cursor.execute(f"SELECT * FROM incidents WHERE incident_id = {item[0]}")
+    #             output_info.append(list(cursor.fetchone()))
+    #             output_info[0].append(int(geo(location, data).m))
+    #             output += output_info\
+
+    #     return output

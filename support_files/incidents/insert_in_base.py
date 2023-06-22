@@ -60,11 +60,14 @@ def insert_face_crime(base):
             name TEXT,
             birthday TEXT,
             date_catch TEXT,
-            status_crime TEXT);
+            status_crime TEXT,
+            tg_id INTEGER,
+            curator_tg_id INTEGER,
+            FOREIGN KEY(curator_tg_id) REFERENCES curators(id_tg));
     """)
 
     cursor.execute("""
-        INSERT INTO criminals(name, birthday, date_catch, status_crime) VALUES (?, ?, ?, ?);""", base)
+        INSERT INTO criminals(name, birthday, date_catch, status_crime, tg_id, curator_tg_id) VALUES (?, ?, ?, ?, ?, ?);""", base)
 
     cursor.close()
     connection.commit()
