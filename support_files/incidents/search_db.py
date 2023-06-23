@@ -71,10 +71,9 @@ def search_in_base(data, mode):
             x += 1
         return dict_search
 
-
-    # elif mode == "reference":
-    #     cursor.execute(f"SELECT * FROM reference WHERE search_name LIKE '%{data}%'")
-    #     return cursor.fetchall()
+    elif mode == "reference":
+        cursor.execute(f"SELECT * FROM reference WHERE search_name LIKE '%{data}%'")
+        return cursor.fetchall()
     
     elif mode == "criminals":
         cursor.execute(f"SELECT criminals.id, criminals.name, criminals.birthday FROM criminals WHERE criminals.name LIKE '%{data}%'")
@@ -115,6 +114,18 @@ def search_in_base(data, mode):
         message_send += "<b>Выведены все лица, введите необходимый ID:</b>"
         return result_searching, message_send
 
+    elif mode == "criminal_case":
+        cursor.execute(f"""
+        SELECT incidents.*, criminal_case.num_case, criminal_case.date_case, 
+        criminal_case.article, criminals.name, criminals.date_catch, 
+        criminals.status_crime, criminals.tg_id
+        FROM incidents 
+        FULL JOIN criminal_case ON criminal_case.kusp=incidents.kusp 
+        FULL JOIN  criminals ON criminals.id=incidents.id_crimes
+        WHERE criminal_case.num_case LIKE "%{data}%"
+        """)
+        return cursor.fetchall()
+
     result_parcing = cursor.fetchall()
 
     list_1 = []
@@ -151,7 +162,6 @@ def search_in_base_revelation(mode):
         WHERE incidents.revelation LIKE 'Да'
         """)
         
-
     elif mode == "Нет":
         cursor.execute(f"""
         SELECT incidents.*,

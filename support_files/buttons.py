@@ -63,15 +63,11 @@ inline_reply_incident_btn3 = types.InlineKeyboardButton(text="Поиск по а
 inline_reply_incident_btn10 = types.InlineKeyboardMarkup(text="Поиск по геолокации", callback_data="search_geo")
 inline_reply_incident_btn4 = types.InlineKeyboardButton(text="Раскрытые", callback_data="sort_rev_yes")
 inline_reply_incident_btn5 = types.InlineKeyboardButton(text="Не раскрытые", callback_data="sort_rev_none")
-inline_reply_incident_btn6 = types.InlineKeyboardButton(text="Внести эпизод", callback_data="add_new_incident")
 inline_reply_incident_btn9 = types.InlineKeyboardButton(text="Поиск ID", callback_data="search_id")
 
 inline_reply_incident_btn7 = types.InlineKeyboardButton(text="Добавить фотографию", callback_data="add_photo_incident")
 inline_reply_incident_btn8 = types.InlineKeyboardButton(text="Завершить", callback_data="confirm_add_incident")
 
-
-inline_reply_incident = types.InlineKeyboardMarkup().row(inline_reply_incident_btn1, inline_reply_incident_btn9).row(inline_reply_incident_btn2, inline_reply_incident_btn3)
-inline_reply_incident.row(inline_reply_incident_btn4, inline_reply_incident_btn5).add(inline_reply_incident_btn6)
 
 inline_reply_incident_confirm_story = types.InlineKeyboardMarkup().row(inline_reply_incident_btn7, inline_reply_incident_btn8)
 
@@ -87,16 +83,47 @@ inline_reply_reference_btn2 = types.InlineKeyboardButton(text="inline", callback
 inline_reply_reference = types.InlineKeyboardMarkup().row(inline_reply_reference_btn1, inline_reply_reference_btn2)
 
 inline_reply_crimes_btn1 = types.InlineKeyboardButton(text="Поиск по ФИО", callback_data="search_crimes_name")
-inline_reply_crimes_btn2 = types.InlineKeyboardButton(text="Добавить лицо", callback_data="add_crimes_name")
 inline_reply_crimes_btn3 = types.InlineKeyboardButton(text="Все лица", callback_data="all_crimes")
 
-inline_reply_crimes_names = types.InlineKeyboardMarkup().add(inline_reply_crimes_btn3).row(inline_reply_crimes_btn1, inline_reply_crimes_btn2)
+# inline_reply_crimes_names = types.InlineKeyboardMarkup().add(inline_reply_crimes_btn3).row(inline_reply_crimes_btn1, inline_reply_crimes_btn2)
 
 ##########################################################################
 
 # Кнопки уголовных дел
 
-inline_reply_case_btn1 = types.InlineKeyboardButton(text="Добавить", callback_data="add_case")
+
 inline_reply_case_btn2 = types.InlineKeyboardButton(text="Поиск", callback_data="search_case")
 
-inline_reply_case = types.InlineKeyboardMarkup().row(inline_reply_case_btn1, inline_reply_case_btn2)
+# inline_reply_case = types.InlineKeyboardMarkup().row(inline_reply_case_btn1, inline_reply_case_btn2)
+
+##########################################################################
+
+cancel_button = types.InlineKeyboardButton(text="Отмена", callback_data="cancel")
+
+# Кнопки новые поиск
+
+general_menu_inline_btn1 = types.InlineKeyboardButton(text="Поиск", callback_data="general_search")
+general_menu_inline_btn2 = types.InlineKeyboardButton(text="Внесение", callback_data="general_insert")
+general_menu_inline_btn3 = types.InlineKeyboardButton(text="Справка", callback_data="reference")
+general_menu_inline_btn4 = types.InlineKeyboardButton(text="Почта", callback_data="send_files")
+
+general_menu_inline = types.InlineKeyboardMarkup().row(general_menu_inline_btn1, general_menu_inline_btn2).row(general_menu_inline_btn3, general_menu_inline_btn4)
+
+search_inline_incidents = types.InlineKeyboardButton(text="Преступления", callback_data="incidents")
+search_inline_criminals = types.InlineKeyboardButton(text="Лица", callback_data="crimes")
+search_inline_criminal_case = types.InlineKeyboardButton(text="Поиск по УД", callback_data="search_case")
+
+search_menu_inline = types.InlineKeyboardMarkup().row(search_inline_incidents, search_inline_criminals, search_inline_criminal_case).add(cancel_button)
+
+inline_reply_incident = types.InlineKeyboardMarkup().row(inline_reply_incident_btn1, inline_reply_incident_btn9).row(inline_reply_incident_btn2, inline_reply_incident_btn3).row(inline_reply_incident_btn4, inline_reply_incident_btn5).add(cancel_button)
+
+inline_reply_crimes_names = types.InlineKeyboardMarkup().row(inline_reply_crimes_btn1, inline_reply_crimes_btn3).add(cancel_button)
+
+# Кнопки новые поиск
+
+incert_inline_criminals = types.InlineKeyboardButton(text="Внести лицо", callback_data="add_crimes_name")
+incert_inline_case = types.InlineKeyboardButton(text="Внести УД", callback_data="add_case")
+incert_inline_inline_incident = types.InlineKeyboardButton(text="Внести заявку", callback_data="add_new_incident")
+
+incert_menu_inline = types.InlineKeyboardMarkup().row(incert_inline_criminals, incert_inline_case, incert_inline_inline_incident).add(cancel_button)
+

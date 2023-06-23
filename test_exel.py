@@ -82,13 +82,15 @@ def select():
         FROM incidents 
         FULL JOIN criminal_case ON criminal_case.kusp=incidents.kusp 
         FULL JOIN  criminals ON criminals.id=incidents.id_crimes
-        WHERE criminals.name LIKE "%Иванов%"
+        WHERE criminal_case.num_case LIKE "%4021%"
     """)
     return cursor.fetchall()
 
 # cursor.execute("SELECT criminals.name, criminals.birthday FROM criminals WHERE criminals.name LIKE '%Иванов%'")
 
-# result_searching = select()
+result_searching = select()
+
+print(result_searching)
 
 # list_1 = []
 
