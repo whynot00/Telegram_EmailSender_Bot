@@ -28,21 +28,23 @@ class Incidents(StatesGroup):
     incident_add_new_story_6 = State()
     incident_add_new_story_7 = State()
 
-# Реакция на выход с отправки /// хз как работает на нескольких этапах????
-@dp.message_handler(text=nav.main_button_1.text, state=[Incidents.incident, Incidents.incident_add_new_story_1, Incidents.incident_add_new_story_2, Incidents.incident_add_new_story_3, Incidents.incident_add_new_story_4, Incidents.incident_add_new_story_5])
+
+   # Реакция на выход с отправки /// хз как работает на нескольких этапах????
+@dp.message_handler(text=nav.cancel_key.text, state="*")
 async def poyti_nahooi(message: types.Message, state=FSMContext):
     await state.finish()
-    await bot.send_message(message.from_user.id, "Выберите необходимую функцию:", reply_markup=nav.inline_reply_button) 
-
+    await bot.send_message(message.from_user.id, "<b>Отменено.</b>", reply_markup=types.ReplyKeyboardRemove())
+    await bot.send_message(message.from_user.id, "Главное меню:", reply_markup=nav.general_menu_inline) 
 
 # 1.1 Вход в добавление инцидента
 @dp.callback_query_handler(text="add_new_incident")
 async def add_new_story(callback: CallbackQuery, state=FSMContext):
+    await callback.answer()
     if wl_check.whitelist_checker(user_id=callback.from_user.id, powers="moderator") != True:
-        await bot.send_message(callback.from_user.id, "У вас недостаточно прав.", reply_markup=nav.inline_reply_button)
+        await bot.send_message(callback.from_user.id, "У вас недостаточно прав.", reply_markup=nav.general_menu_inline)
         return
 
-    await bot.send_message(callback.from_user.id, "Введите дату соврешения преступления.", reply_markup=nav.main_button)
+    await bot.send_message(callback.from_user.id, "Введите дату соврешения преступления.")
     await state.set_state(Incidents.incident_add_new_story_1)
 
 
@@ -54,10 +56,10 @@ async def insert_date_story(message: types.Message, state=FSMContext):
         async with state.proxy() as data:
             data["date_story"] = str(message.text)
         await state.set_state(Incidents.incident_add_new_story_2)
-        await bot.send_message(message.from_user.id, "Введите адрес совершения преступления:", reply_markup=nav.main_button)
+        await bot.send_message(message.from_user.id, "Введите адрес совершения преступления:", reply_markup=nav.cancel_key_button)
 
     except ValueError:
-        await bot.send_message(message.from_user.id, "Дата введена некоректно.\n\nВведите снова:", reply_markup=nav.main_button)
+        await bot.send_message(message.from_user.id, "Дата введена некоректно.\n\nВведите снова:", reply_markup=nav.cancel_key_button)
 
 
 # 1.3 Ввод адреса
@@ -68,10 +70,10 @@ async def insert_address_story(message: types.Message, state=FSMContext):
         async with state.proxy() as data:
             data["address_story"] = result_normalize
         
-        await bot.send_message(message.from_user.id, "Введите сотрудника, кто выезжал от УУР:", reply_markup=nav.main_button)
+        await bot.send_message(message.from_user.id, "Введите сотрудника, кто выезжал от УУР:", reply_markup=nav.cancel_key_button)
         await state.set_state(Incidents.incident_add_new_story_3)
     else:
-        await bot.send_message(message.from_user.id, "Адрес введен некорректно (не соотвествует карте)\nВведите снова:", reply_markup=nav.main_button)
+        await bot.send_message(message.from_user.id, "Адрес введен некорректно (не соотвествует карте)\nВведите снова:", reply_markup=nav.cancel_key_button)
 
 # 1.4 Ввод сотрудника
 @dp.message_handler(state=Incidents.incident_add_new_story_3)
@@ -80,7 +82,7 @@ async def insert_fellow_story(message: types.Message, state=FSMContext):
         data["fellow_story"] = message.text.title()
     await state.set_state(Incidents.incident_add_new_story_4)
 
-    await bot.send_message(message.from_user.id, "Преступление раскрыто?\n\nДа\\Нет", reply_markup=nav.main_button)
+    await bot.send_message(message.from_user.id, "Преступление раскрыто?\n\nДа\\Нет", reply_markup=nav.cancel_key_button)
 
 # 1.5 Ввод КУСП
 @dp.message_handler(state=Incidents.incident_add_new_story_4)
@@ -89,9 +91,9 @@ async def insert_fellow_story(message: types.Message, state=FSMContext):
         async with state.proxy() as data:
             data["revelation_story"] = message.text.title()
         await state.set_state(Incidents.incident_add_new_story_5)
-        await bot.send_message(message.from_user.id, "Введите КУСП (только цифры)", reply_markup=nav.main_button)
+        await bot.send_message(message.from_user.id, "Введите КУСП (только цифры)", reply_markup=nav.cancel_key_button)
     else:
-        await bot.send_message(message.from_user.id, "Раскрытие введено не верно.\nВведите еща раз (Да\\Нет):", reply_markup=nav.main_button)
+        await bot.send_message(message.from_user.id, "Раскрытие введено не верно.\nВведите еща раз (Да\\Нет):")
     
 
 # 1.6 Ввод раскрытия
@@ -101,7 +103,7 @@ async def insert_revelation_story(message: types.Message, state=FSMContext):
         data["KUSP"] = message.text.title()
     await state.set_state(Incidents.incident_add_new_story_6)
 
-    await bot.send_message(message.from_user.id, "Введите тип преступления:\n ДТП\\Банк", reply_markup=nav.main_button)
+    await bot.send_message(message.from_user.id, "Введите тип преступления:\n ДТП\\Банк", reply_markup=nav.cancel_key_button)
 
 # 1.7 Ввод типа преступления
 @dp.message_handler(state=Incidents.incident_add_new_story_6)
@@ -131,12 +133,14 @@ async def insert_text_story(message: types.Message, state=FSMContext):
 # 1.9 Ввод фотографии
 @dp.callback_query_handler(text="add_photo_incident", state=Incidents.incident_add_new_story_7)
 async def add_photo_incident(callback: CallbackQuery, state=FSMContext):
+    await callback.answer()
     await callback.message.edit_text(text="Данная функиция пока не работает", reply_markup=nav.inline_reply_incident_confirm_story)
 
 
 # 1.10 Подтверждение
 @dp.callback_query_handler(text="confirm_add_incident", state=Incidents.incident_add_new_story_7)
 async def confirm_add_incident(callback: CallbackQuery, state=FSMContext):
+    await callback.answer()
     async with state.proxy() as data:
         result_add = [data["revelation_story"], data["date_story"], data["address_story"], data["fellow_story"], data["story"], data["crime_type"], data["KUSP"]]
 
@@ -145,4 +149,4 @@ async def confirm_add_incident(callback: CallbackQuery, state=FSMContext):
     base.insert_story(result_add)
 
     await state.finish()
-    await callback.message.edit_text(text="Карточка внесена!\n\nГлавное меню.", reply_markup=nav.inline_reply_button)
+    await callback.message.edit_text(text="Карточка внесена!\n\nГлавное меню.", reply_markup=nav.general_menu_inline)

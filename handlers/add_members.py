@@ -246,7 +246,6 @@ async def insert_id(message: types.Message, state=FSMContext):
 # @dp.message_handler(text=nav.delete_btn.text, state=Members.delete_btn_2)
 # async def delete_btn_confirm(message: types.Message, state=FSMContext):
 #     async with state.proxy() as data:
-#         print(data["members_removed"])
 #         with open("configurations/white_list.json", "w") as file:
 #             json.dump(data["members_removed"], file)
 

@@ -36,15 +36,8 @@ async def insert_organization(message: types.Message, state=FSMContext):
     if result_search:
         for item in result_search:
             await bot.send_message(message.from_user.id, text=f"<b>Бренд:</b> {item[2]}\n<b>Юр. лицо:</b> {item[3]}\n<b>ФИО:</b> {item[4]}\n<b>Должность:</b> {item[5]}\n<b>Телефон:</b> {item[6]}\n<b>E-mail:</b> {item[7]}\n<b>Коментарий:</b> {item[8]}\n")
-        await bot.send_message(message.from_user.id, text="Главное меню:", reply_markup=nav.inline_reply_button)
+        await bot.send_message(message.from_user.id, text="Главное меню:", reply_markup=nav.general_menu_inline)
     else:
-        await bot.send_message(message.from_user.id, text="По данному запросу информации нет.\n\nГлавное меню:", reply_markup=nav.inline_reply_button)
+        await bot.send_message(message.from_user.id, text="По данному запросу информации нет.\n\nГлавное меню:", reply_markup=nav.general_menu_inline)
 
     await state.finish()
-
-# @dp.callback_query_handler(text=["inline", "organization"])
-# async def inline(callback: CallbackQuery):
-#     if callback.data == "organization":
-#         print("organization")
-#     elif callback.data == "inline":
-#         print("inline")

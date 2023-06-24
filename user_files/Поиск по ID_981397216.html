@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Здесь был Штаб</title>
+</head>
+
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    }
+
+    div,
+    p,
+    input,
+    button,
+    form,
+    span,
+    a,
+    ul,
+    li {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+
+    body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: #202630;
+    }
+
+    .container {
+    width: 1170px;
+    margin: 0 auto;
+    }
+
+    .header {
+    background-color: #DBE5EE;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    border: 0.5px solid rgba(32, 38, 48, 0.2);
+    border-radius: 5px;
+    margin-top: 25px;
+    }
+    .header div {
+    padding: 15px 0 25px 20px;
+    }
+    .header p {
+    letter-spacing: 0.1em;
+    }
+
+    h2 {
+    font-size: 30px;
+    font-weight: 500;
+    margin-top: 15px;
+    }
+
+    h3 {
+    font-size: 25px;
+    font-weight: 400;
+    margin-top: 16px;
+    }
+
+    h4 {
+    font-weight: 300;
+    font-size: 20px;
+    }
+
+    h5 {
+    font-weight: 500;
+    font-size: 20px;
+    }
+
+    .wrapper {
+    background-color: rgba(199, 226, 251, 0.1);
+    padding: 22px 20px;
+    border: 0.5px solid rgba(32, 38, 48, 0.2);
+    border-radius: 5px;
+    margin: 10px 0;
+    }
+
+    .h-wrapper {
+    background-color: #E0F4FF;
+    border-radius: 10px;
+    padding: 12px 18px;
+    }
+
+    .info {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 3fr 6fr;
+    grid-template-columns: 3fr 6fr;
+    padding: 12px;
+    border-bottom: 0.5px solid rgba(32, 38, 48, 0.2);
+    }
+    .info p {
+    color: #5B6670;
+    vertical-align: middle;
+    }
+
+    .info-finish {
+    border: none;
+    }
+
+    @media screen and (max-width: 576px) {
+    .container {
+        width: 100%;
+    }
+    .header {
+        display: block;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        padding: 10px 0;
+        border: none;
+        margin-top: 0;
+    }
+    .header div {
+        padding: 0 0 10px 18px;
+    }
+    h2 {
+        font-size: 20px;
+        margin-top: 0;
+    }
+    h3 {
+        font-size: 21px;
+        margin-left: 15px;
+    }
+    .wrapper {
+        margin: 10px;
+        padding: 12px 10px;
+    }
+    .info {
+        display: block;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        padding: 10px;
+    }
+    .info p {
+        padding: 10px 0 5px;
+    }
+    }
+</style>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div>
+                <p>ЗАПРОС</p>
+                <h2>Поиск по ID</h2>
+            </div>
+        </header>
+        <section>
+            <h3>Событие</h3>
+            <div class="wrapper">
+
+                <div class="h-wrapper">
+                    <h4>ПРЕСТУПЛЕНИЕ ID 2</h4>
+                </div>
+                <div class="info">
+                    <h5>ID по базе данных:</h5>
+                    <p>2</p>
+                </div>
+                <div class="info">
+                    <h5>Дата совершения:</h5>
+                    <p>21.06.2023</p>
+                </div>
+                <div class="info">
+                    <h5>Адрес совершения:</h5>
+                    <p>Нижний Новгород Горная 80 41 </p>
+                </div>
+                <div class="info">
+                    <h5>Сотрудник выезжавший от УУР:</h5>
+                    <p>Жагарин</p>
+                </div>
+                <div class="info">
+                    <h5>Раскрытие:</h5>
+                    <p>Нет</p>
+                </div>
+                <div class="info info-finish">
+                    <h5>Фабула:</h5>
+                    <p>Под шазцз пдцхь Плаза жухла зцхомщу пзыхдп опщцх</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h3>Сведение о преступнике</h3>
+            <div class="wrapper">
+                <div class="h-wrapper">
+                    <h4>ФИО: Степанов Артур Семенович</h4>
+                </div>
+                <div class="info">
+                    <h5>Дата рождения:</h5>
+                    <p>10.03.1997</p>
+                </div>
+                <div class="info">
+                    <h5>Дата задержания:</h5>
+                    <p>24.06.2022</p>
+                </div>
+                <div class="info">
+                    <h5>Статус:</h5>
+                    <p>Подозреваемый</p>
+                </div>
+                <div class="info">
+                    <h5>ID телеграм-аккаунта:</h5>
+                    <p>4719739173</p>
+                </div>
+                <div class="info info-finish">
+                    <h5>ID телеграм-аккаунта (куратор):</h5>
+                    <p>471863822</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h3>Сведения о уголовном деле</h3>
+            <div class="wrapper">
+
+                <div class="h-wrapper">
+                    <h4>УД № 1230122472974862</h4>
+                </div>
+                <div class="info">
+                    <h5>КУСП:</h5>
+                    <p>23411</p>
+                </div>
+                <div class="info">
+                    <h5>Дата возбуждения:</h5>
+                    <p>24.06.2023</p>
+                </div>
+                <div class="info info-finish">
+                    <h5>Статья:</h5>
+                    <p>159 2</p>
+                </div>
+                
+            </div>
+
+        </section>
+    </div>
+</body>
+</html>

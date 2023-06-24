@@ -26,15 +26,16 @@ from support_files.incidents import form_request as from_req
 async def cancel_def(callback: CallbackQuery, state=FSMContext):
     await callback.answer()
     await state.finish()
-    await callback.message.edit_text("<b>Отмена.</b>\nГлавное меню:", reply_markup=nav.general_menu_inline)
+    await callback.message.edit_text("<b>Информационная система ОМТ</b>\n\nГлавное меню:", reply_markup=nav.general_menu_inline)
 
 
 @dp.callback_query_handler(text="general_search")
 async def general_search(callback: CallbackQuery):
     await callback.answer()
-    await bot.send_message(callback.from_user.id, text="<b>Выберите функцию:</b>", reply_markup=nav.search_menu_inline)
+    await callback.message.edit_text(text="<b>Выберите направление поиска:</b>", reply_markup=nav.search_menu_inline)
 
 @dp.callback_query_handler(text="general_insert")
-async def general_search(callback: CallbackQuery):
+async def general_insert(callback: CallbackQuery):
     await callback.answer()
-    await bot.send_message(callback.from_user.id, text="<b>Выберите функцию:</b>", reply_markup=nav.incert_menu_inline)
+    if wl_check.whitelist_checker(user_id=callback.from_user.id, powers="moderator") == True:
+        await callback.message.edit_text(text="<b>Выберите что необходимо внести в базу:</b>", reply_markup=nav.incert_menu_inline)

@@ -23,7 +23,7 @@ def form_story_in_html(db_list, search_title, userid, mode):
 
     elif mode == "criminals":
         template = environment.get_template("form_request_template.html")
-        content = template.render(database=db_list, amount=len(db_list), search_name=search_title)
+        content = template.render(database=db_list, search_name=search_title)
 
     with open(f"user_files/{search_title}_{userid}.html", mode="w", encoding="utf-8") as message:
         message.write(content)

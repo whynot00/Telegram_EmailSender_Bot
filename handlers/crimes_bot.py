@@ -44,10 +44,11 @@ async def search_add_crimes(callback: CallbackQuery, state=FSMContext):
 
     elif callback.data == "add_crimes_name":
         if wl_check.whitelist_checker(callback.from_user.id, powers="moderator") == True:
-            await callback.message.edit_text("<b>Введите ФИО лица:</b>")
+            await bot.delete_message(callback.from_user.id, callback.message.message_id)
+            await bot.send_message(callback.from_user.id, "<b>Введите ФИО лица:</b>", reply_markup=nav.cancel_key_button)
             await state.set_state(Crimes.add_name_1)
         else:
-            await callback.message.edit_text("<b>У вас недостаточно прав.</b>", reply_markup=nav.inline_reply_button)
+            await callback.message.edit_text("<b>У вас недостаточно прав.</b>", reply_markup=nav.general_menu_inline)
     elif callback.data == "all_crimes":
         result_search, message_result = search.search_in_base(data=None, mode="criminals_all")
         await callback.message.edit_text(message_result)
@@ -107,7 +108,7 @@ async def confirm_add(callback: CallbackQuery, state=FSMContext):
     
     if callback.data == "confirm_add_incident":
         base.insert_face_crime(info_criminal)
-        await bot.send_message(callback.from_user.id, '<b>Карточка успешно добавлена.</b>\n\nУказать эпизоды которые есть за данным лицом, можно во вкладке "Поиск по ID".', reply_markup=nav.inline_reply_button)
+        await bot.send_message(callback.from_user.id, '<b>Карточка успешно добавлена.</b>\n\nУказать эпизоды которые есть за данным лицом, можно во вкладке "Поиск по ID".', reply_markup=nav.general_menu_inline)
         await state.finish()
 
     await callback.answer()
@@ -116,13 +117,13 @@ async def confirm_add(callback: CallbackQuery, state=FSMContext):
 async def search_crimes_btn(message: types.Message, state=FSMContext):
     result_search, message_result = search.search_in_base(data=message.text, mode="criminals")
     if not result_search:
-        await bot.send_message(message.from_user.id, "<b>По запрошеным данным, информации нет.\n\nГлавное меню:</b>", reply_markup=nav.inline_reply_button)
+        await bot.send_message(message.from_user.id, "<b>По запрошеным данным, информации нет.\n\nГлавное меню:</b>", reply_markup=nav.general_menu_inline)
         await state.finish()
     
     elif message_result is None:
         from_req.form_story_in_html(db_list=result_search, search_title="Поиск по ФИО", userid=message.from_user.id, mode="criminals")
         await bot.send_document(message.from_user.id, open(f"user_files/Поиск по ФИО_{message.from_user.id}.html", "rb"), caption="Сформирован отчет.")
-        await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.inline_reply_button)
+        await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.general_menu_inline)
         os.unlink(f"user_files/Поиск по ФИО_{str(message.from_user.id)}.html")
         await state.finish()
         
@@ -134,8 +135,9 @@ async def search_crimes_btn(message: types.Message, state=FSMContext):
 async def search_crimes_id(message: types.Message, state=FSMContext):
     if message.text.isdigit():
         result_search = search.search_in_base(data=message.text, mode="criminals_id")
+        print(result_search)
         from_req.form_story_in_html(db_list=result_search, search_title="Поиск по ФИО", userid=message.from_user.id, mode="criminals")
         await bot.send_document(message.from_user.id, open(f"user_files/Поиск по ФИО_{message.from_user.id}.html", "rb"), caption="Сформирован отчет.")
-        await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.inline_reply_button)
+        await bot.send_message(message.from_user.id, "Главное меню.", reply_markup=nav.general_menu_inline)
         os.unlink(f"user_files/Поиск по ФИО_{str(message.from_user.id)}.html")
         await state.finish()

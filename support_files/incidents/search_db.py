@@ -43,8 +43,13 @@ def search_in_base(data, mode):
         FULL JOIN  criminals ON criminals.id=incidents.id_crimes
         WHERE incidents.incident_id={data}
         """)
-
-        result_searching = cursor.fetchall()[0]
+        # if cursor.fetchall() == []:
+            
+        #     return False
+        try:
+            result_searching = cursor.fetchall()[0]
+        except IndexError:
+            return False
 
         dict_search = {
             "incident": [],
@@ -102,6 +107,7 @@ def search_in_base(data, mode):
             FULL JOIN  criminals ON criminals.id=incidents.id_crimes
             WHERE criminals.id={data}
             """)
+
         result_searching = cursor.fetchall()
         return result_searching
 

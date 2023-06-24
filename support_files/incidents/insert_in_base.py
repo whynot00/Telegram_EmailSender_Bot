@@ -90,3 +90,18 @@ def insert_case(base):
 
     cursor.close()
     connection.commit()
+
+def update_id(id_incident, id_criminal):
+    connection = sqlite3.connect("support_files/incidents/database_inc/base_inc.db")
+    cursor = connection.cursor()
+
+    cursor.execute(f"""
+    UPDATE incidents SET id_crimes = {id_criminal} WHERE incident_id = {id_incident}
+    """)
+    
+    cursor.execute(f"""
+    UPDATE incidents SET revelation = "Да" WHERE incident_id = {id_incident}
+    """)
+
+    cursor.close()
+    connection.commit()

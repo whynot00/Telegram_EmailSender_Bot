@@ -49,7 +49,6 @@ def check_username(user_id, username):
 
     for power in white_list.keys():
         for key_0 in white_list[power].keys():
-            print(white_list[power][key_0])
             if (user_id in white_list[power][key_0]) and (len(white_list[power][key_0]) < 2):
                 white_list[power][key_0].append(username)
 
